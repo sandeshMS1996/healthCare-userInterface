@@ -1,0 +1,39 @@
+<style>
+  input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
+  input.ng-dirty.ng-valid { border: solid 2px green; color: green}
+</style>
+<div class="bg-danger text-white p-2 mb-2" *ngIf="formSubmitted && loginData.invalid">
+  <h3> There are problems with the form</h3>
+  <ul *ngFor="let i of evaluateUser()">
+    <li>{{i}}</li>
+  </ul>
+</div>
+<div id="login" class="bg-light">
+  <div class="container">
+    <div id="login-row" class="row justify-content-center align-items-center">
+      <div id="login-column" class="col-md-6">
+        <div id="login-box" class="col-md-12">
+          <form id="login-form" [formGroup]="loginData"  class="form" (ngSubmit)="evaluateUser()" >
+            <h3 class="text-center text-info">Login</h3>
+            <div class="form-group">
+              <label  class="text-info">Username:</label><br>
+              <input type="text"  name="username" formControlName="userName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="password" class="text-info">Password:</label><br>
+              <input type="text" name="password" id="password" formControlName="password" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
+            <button class="btn btn-primary" [class.btn-secondary]="loginData.invalid"
+                    >Login</button>
+            </div>
+            <div id="register-link" class="text-right">
+              <a href="#" class="text-info">Register here</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
