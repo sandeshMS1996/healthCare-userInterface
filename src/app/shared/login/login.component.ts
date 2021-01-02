@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {strict} from 'assert';
 import {FromValidationService} from '../from-validation.service';
 import {UserModel} from '../User.model';
 import {AppAuthenticationService} from '../app-authentication.service';
@@ -41,12 +40,11 @@ export class LoginComponent implements OnInit {
       const auth = this.authService.authenticate(userModel);
       if (auth.isAuthenticated === true) {
         if (auth.role === 'user') {
-            this.router.navigateByUrl('user');
+              this.router.navigateByUrl('user').then();
           }
           else if (auth.role === 'admin') {
-            this.router.navigateByUrl('admin');
+             this.router.navigateByUrl('admin').then();
         }
-        this.authService.UserDetails.emit(auth);
       }
     } else {
       this.evaluateUser();

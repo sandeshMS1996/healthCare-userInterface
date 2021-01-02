@@ -10,6 +10,7 @@ import { LoginComponent } from './shared/login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { HeaderComponent } from './shared/header/header.component';
 import { HomeComponent } from './shared/home/home.component';
+import {RouteGuardService} from './shared/route-guard.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { HomeComponent } from './shared/home/home.component';
   imports: [
     BrowserModule, AppRoutingModule, RouterModule, ReactiveFormsModule
   ],
-  providers: [],
+  providers: [RouteGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
