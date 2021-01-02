@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {strict} from 'assert';
 import {FromValidationService} from '../from-validation.service';
+import {UserModel} from '../User.model';
+import {AppAuthenticationService} from '../app-authentication.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @Component({
@@ -18,7 +21,10 @@ export class LoginComponent implements OnInit {
     ))
   });
   formSubmitted = false;
-  constructor(private validationService: FromValidationService) { }
+  constructor(private validationService: FromValidationService,
+              private authService: AppAuthenticationService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -26,4 +32,26 @@ export class LoginComponent implements OnInit {
    this.formSubmitted = true;
    return this.validationService.evaluateUser(this.loginData);
   }
-}
+
+  submitForm(): void {
+    const userModel = new UserModel();
+    if (this.loginData.valid) {
+      userModel.username = this.loginData.controls[`userName`].value;
+      userModel.password = this.loginData.controls[`password`].value;
+      const auth = this.authService.authenticate(userModel);
+      if (auth.isAuthenticated === true) {
+          if (auth.role === 'user') {
+            this.router.navigateByUrl('user');
+          }
+          else if (auth.role === 'admin') {
+            this.router.navigateByUrl('admin');
+        }
+      }
+    } else {
+      this.evaluateUser();
+    }
+
+  }
+
+  }
+

@@ -14,7 +14,6 @@ export class FromValidationService {
         this.updateErrorMessage(loginData.controls[a].errors, errors, a);
       }
     });
-    console.log(errors);
     return errors;
   }
   public updateErrorMessage(controls: any, errors: string[], a: string): void {
@@ -22,7 +21,6 @@ export class FromValidationService {
       errors.push(`${a} is required`.toLocaleLowerCase());
     }
     else if (controls?.minlength) {
-      console.log('minlength');
       errors.push(`${a} should be at least ${controls[`minlength`].requiredLength} characters long`.toLocaleLowerCase());
     }
   }

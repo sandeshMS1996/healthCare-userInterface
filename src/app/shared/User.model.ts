@@ -1,4 +1,5 @@
 export class UserModel {
-  constructor(public fullName: string, public username: string, public jwtToken?: string) {
+  constructor(public username?: string, public password?: string,
+              public fullName?: string, public role?: string, public isAuthenticated = false) {
   }
 }
