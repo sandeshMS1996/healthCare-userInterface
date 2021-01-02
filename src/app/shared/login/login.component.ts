@@ -40,12 +40,13 @@ export class LoginComponent implements OnInit {
       userModel.password = this.loginData.controls[`password`].value;
       const auth = this.authService.authenticate(userModel);
       if (auth.isAuthenticated === true) {
-          if (auth.role === 'user') {
+        if (auth.role === 'user') {
             this.router.navigateByUrl('user');
           }
           else if (auth.role === 'admin') {
             this.router.navigateByUrl('admin');
         }
+        this.authService.UserDetails.emit(auth);
       }
     } else {
       this.evaluateUser();

@@ -8,4 +8,10 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   title = 'healthCare-userInterface';
+  flag = false;
+  constructor() {
+    if (!localStorage.getItem('jwt')) {
+      this.flag = true;
+    }
+  }
 }
