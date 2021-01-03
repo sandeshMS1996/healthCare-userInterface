@@ -1,21 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {AdminComponent} from './admin.component';
+import {UserComponent} from './user.component';
 import {HeaderComponent} from '../shared/header/header.component';
 import {SharedModule} from '../shared/shared.module';
 import {RouterModule} from '@angular/router';
-import {UserComponent} from '../user/user.component';
 import {RouteGuardService} from '../shared/route-guard.service';
 
-
 const routing = RouterModule.forChild([
-  { path: '', component: AdminComponent,
+  { path: '', component: UserComponent,
     canActivate: [RouteGuardService] },
 ]);
 @NgModule({
-  declarations: [AdminComponent],
+  declarations: [UserComponent],
   imports: [
     CommonModule, SharedModule, routing
   ]
 })
-export class AdminModule { }
+export class UserModule { }

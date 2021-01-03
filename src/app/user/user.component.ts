@@ -9,7 +9,9 @@ import {UserModel} from '../shared/User.model';
 })
 export class UserComponent implements OnInit, OnChanges {
   username;
-  constructor(private userService: AppAuthenticationService) { }
+  constructor(private userService: AppAuthenticationService) {
+    console.log('user component');
+  }
 
   ngOnInit(): void {
     /*this.userService.UserDetails.subscribe( a => {

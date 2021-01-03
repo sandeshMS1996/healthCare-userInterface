@@ -12,14 +12,15 @@ export class AppComponent implements OnInit{
   constructor(private router: Router, private authService: AppAuthenticationService) {
   }
   ngOnInit(): void {
-    const userData = this.authService.getCurrentUser();
+    /*const userData = this.authService.getCurrentUser();
     if ( userData != null) {
       if ( userData.role === 'user') {
         this.router.navigateByUrl('user').then();
       } else if (userData.role === 'ram_JWT'){
         this.router.navigateByUrl('admin').then();
       }
-    }
+    }*/
   }
 
 }
+

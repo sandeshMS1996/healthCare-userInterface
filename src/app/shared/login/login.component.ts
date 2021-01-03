@@ -39,10 +39,10 @@ export class LoginComponent implements OnInit {
       userModel.password = this.loginData.controls[`password`].value;
       const auth = this.authService.authenticate(userModel);
       if (auth.isAuthenticated === true) {
-        if (auth.role === 'user') {
+        if (auth.role === 'ROLE_USER') {
               this.router.navigateByUrl('user').then();
           }
-          else if (auth.role === 'admin') {
+          else if (auth.role === 'ROLE_ADMIN') {
              this.router.navigateByUrl('admin').then();
         }
       }

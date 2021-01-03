@@ -28,9 +28,7 @@ export class HeaderComponent implements OnInit {
     console.log('completing on init');*/
   }
   logout(): void {
-    if (true/*confirm('you will be logged out')*/) {
-      localStorage.removeItem('jwt');
-      this.router.navigateByUrl('/');
-    }
+    this.AuthService.logout();
+    this.router.navigateByUrl('/login').then();
   }
 }
