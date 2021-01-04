@@ -10,10 +10,11 @@ export class FromValidationService {
     const errors: string[] = [];
     Object.keys(loginData.controls).forEach( a => {
       if (loginData.controls[a] != null) {
-        // console.log(this.loginData.controls[a]);
+        // console.log(loginData.controls);
         this.updateErrorMessage(loginData.controls[a].errors, errors, a);
       }
     });
+    console.log(errors);
     return errors;
   }
   public updateErrorMessage(controls: any, errors: string[], a: string): void {

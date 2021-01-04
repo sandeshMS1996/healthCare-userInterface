@@ -6,6 +6,8 @@ import {LoginComponent} from './login/login.component';
 import {HeaderComponent} from './header/header.component';
 import {HomeComponent} from './home/home.component';
 import {RouteGuardService} from './route-guard.service';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {JwtInterseptorService} from './jwt-interseptor.service';
 
 
 @NgModule({
@@ -14,7 +16,8 @@ import {RouteGuardService} from './route-guard.service';
   imports: [
     CommonModule, RouterModule, ReactiveFormsModule
   ],
-  providers: [RouteGuardService/*, AppAuthenticationService, FromValidationService*/],
+  providers: [RouteGuardService,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterseptorService, multi: true}/*, AppAuthenticationService, FromValidationService*/],
   exports: [HeaderComponent]
 })
 export class SharedModule { }

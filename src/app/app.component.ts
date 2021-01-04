@@ -9,7 +9,8 @@ import {AppAuthenticationService} from './shared/app-authentication.service';
 })
 export class AppComponent implements OnInit{
   title = 'healthCare-userInterface';
-  constructor(private router: Router, private authService: AppAuthenticationService) {
+  constructor() {
+    console.log('app-component');
   }
   ngOnInit(): void {
     /*const userData = this.authService.getCurrentUser();

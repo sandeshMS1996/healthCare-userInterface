@@ -2,39 +2,116 @@
   input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
   input.ng-dirty.ng-valid { border: solid 2px green; color: green}
 </style>
-<div class="bg-danger text-white p-2 mb-2" *ngIf="formSubmitted && loginData.invalid">
-  <h3> There are problems with the form</h3>
-  <ul *ngFor="let i of evaluateUser()">
-    <li>{{i}}</li>
-  </ul>
-</div>
-
-<div id="login" class="bg-light">
-  <div class="container">
-    <div id="login-row" class="row justify-content-center align-items-center">
-      <div id="login-column" class="col-md-6">
-        <div id="login-box" class="col-md-12">
-          <form id="login-form" [formGroup]="loginData"  class="form" (ngSubmit)="submitForm()" >
-            <h3 class="text-center text-info">Login</h3>
-            <div class="form-group">
-              <label  class="text-info">Username:</label><br>
-              <input type="text"  name="username" formControlName="userName" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="password" class="text-info">Password:</label><br>
-              <input type="text" name="password" id="password" formControlName="password" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
-            <button class="btn btn-primary" [class.btn-secondary]="loginData.invalid"
-                    >Login</button>
-            </div>
-            <div id="register-link" class="text-right">
-              <a href="#" class="text-info">Register here</a>
-            </div>
-          </form>
+<div *ngIf="action == 'login'">
+  <div class="bg-danger text-white p-2 mb-2" *ngIf="formSubmitted && loginData.invalid">
+    <h3> There are problems </h3>
+    <ul *ngFor="let i of evaluateUser(loginData)">
+      <li>{{i}}</li>
+    </ul>
+  </div>
+  <div *ngIf=loginFailed>
+    <div class="bg-danger text-white p-2 mb-2">
+      <h3> Incorrect username or Password, Please try again.. </h3>
+    </div>
+  </div>
+  <div id="login" class="bg-light">
+    <div class="container">
+      <div id="login-row" class="row justify-content-center align-items-center">
+        <div id="login-column" class="col-md-6">
+          <div id="login-box" class="col-md-12">
+            <form id="login-form" [formGroup]="loginData" class="form" (ngSubmit)="submitForm(loginData)">
+              <h3 class="text-center text-info">Login</h3>
+              <div class="form-group">
+                <label class="text-info">Username:</label><br>
+                <input type="text" name="username" formControlName="userName" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="password" class="text-info">Password:</label><br>
+                <input type="text" name="password" id="password" formControlName="password" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me"
+                                                                                                 name="remember-me"
+                                                                                                 type="checkbox"></span></label><br>
+                <button class="btn btn-primary" [class.btn-secondary]="loginData.invalid"
+                >Login
+                </button>
+              </div>
+              <div id="register-link" class="text-right">
+                <a href="#" class="text-info">Register here</a>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="action == 'register'">
+  <div class="bg-danger text-white p-2 mb-2" *ngIf="formSubmitted && registerData.invalid">
+    <h3> There are problems with the form</h3>
+    <ul *ngFor="let i of evaluateUser(registerData)">
+      <li>{{i}}</li>
+    </ul>
+  </div>
+  <div class="container">
+    <br>  <p class="text-center">More bootstrap 4 components on <a href="http://bootstrap-ecommerce.com/"> Bootstrap-ecommerce.com</a></p>
+    <hr>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <header class="card-header">
+            <a href="" class="float-right btn btn-outline-primary mt-1">Log in</a>
+            <h4 class="card-title mt-2">Sign up</h4>
+          </header>
+          <article class="card-body">
+            <form [formGroup]="registerData" (ngSubmit)="submitForm(registerData)">
+              <div class="form-row">
+                <div class="col form-group">
+                  <label>First name </label>
+                  <input type="text" name="firstName" formControlName="firstname" class="form-control" placeholder="">
+                </div> <!-- form-group end.// -->
+                <div class="col form-group">
+                  <label>Last name</label>
+                  <input type="text" name="lastName" formControlName="lastname" class="form-control" placeholder=" ">
+                </div> <!-- form-group end.// -->
+              </div> <!-- form-row end.// -->
+              <div class="form-group">
+                <label>Email address</label>
+                <input type="email" name="email" class="form-control" formControlName="email" placeholder="">
+                <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div> <!-- form-group end.// -->
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input class="form-control" name="phone" formControlName="phone" type="phone">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label>create password</label>
+                  <input type="password" name="password" class="form-control"
+                         formControlName="password">
+                </div> <!-- form-group end.// -->
+                <div class="form-group col-md-6">
+                  <label>Confirm password</label>
+                  <input type="password" name="confirmPassword"
+                         class="form-control" formControlName="ConfirmPassword">
+                  <p class="text-danger" *ngIf="!checkPassword()"> Password and confirm password doesn't match</p>
+                </div> <!-- form-group end.// -->
+              </div> <!-- form-row.// -->
+            <!-- form-group end.// -->
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+              </div> <!-- form-group// -->
+              <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br> Terms of use and Privacy Policy.</small>
+            </form>
+          </article> <!-- card-body end .// -->
+          <div class="border-top card-body text-center">Have an account? <a href="">Log In</a></div>
+        </div> <!-- card.// -->
+      </div> <!-- col.//-->
+
+    </div> <!-- row.//-->
+
+
+  </div>
+  <!--container end.//-->
 </div>

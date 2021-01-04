@@ -13,14 +13,23 @@ export class RouteGuardService implements CanActivate{
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const user = this.authService.getCurrentUser();
-      console.log(route.data);
+      console.log(route.component);
       if (route.data.role == null) {
         return true;
       }
-      if (user.role && route.data.role.indexOf(user.role) !== -1) {
+      if (!user) {
+        this.router.navigate(['login']).then();
+        return false;
+      }
+      console.log('passed it');
+      if (route.data.role.indexOf(user.role) !== -1) {
         return true;
       }
-      this.router.navigate(['login']);
+      console.log('redirecting');
+      this.authService.logout();
+      /*if (user.role === 'ROLE_USER') {
+        this.router.navigate(['/user']);
+      }*/
       return false;
   }
 }
