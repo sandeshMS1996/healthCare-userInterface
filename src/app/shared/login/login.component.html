@@ -9,11 +9,11 @@
       <li>{{i}}</li>
     </ul>
   </div>
-  <div *ngIf=loginFailed>
+  <!--<div *ngIf=loginFailed>
     <div class="bg-danger text-white p-2 mb-2">
       <h3> Incorrect username or Password, Please try again.. </h3>
     </div>
-  </div>
+  </div>-->
   <div id="login" class="bg-light">
     <div class="container">
       <div id="login-row" class="row justify-content-center align-items-center">
@@ -33,14 +33,16 @@
                 <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me"
                                                                                                  name="remember-me"
                                                                                                  type="checkbox"></span></label><br>
-                <button class="btn btn-primary" [class.btn-secondary]="loginData.invalid"
-                >Login
+                <button class="btn btn-primary" [class.btn-secondary]="loginData.invalid">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Login
                 </button>
               </div>
               <div id="register-link" class="text-right">
                 <a href="#" class="text-info">Register here</a>
               </div>
             </form>
+            <div *ngIf="loginFailed" class="alert alert-danger mt-3 mb-0">Incorrect Username or password</div>
           </div>
         </div>
       </div>

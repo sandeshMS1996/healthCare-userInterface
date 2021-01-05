@@ -13,7 +13,7 @@ export class RouteGuardService implements CanActivate{
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const user = this.authService.getCurrentUser();
-      console.log(route.component);
+      console.log(route.url + ' ' + route.component);
       if (route.data.role == null) {
         return true;
       }
