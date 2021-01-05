@@ -13,7 +13,7 @@ export class RouteGuardService implements CanActivate{
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const user = this.authService.getCurrentUser();
-      console.log(route.url + ' ' + route.component);
+      console.log(/*route.data.role + ' ' +*/ user);
       if (route.data.role == null) {
         return true;
       }
@@ -21,7 +21,6 @@ export class RouteGuardService implements CanActivate{
         this.router.navigate(['login']).then();
         return false;
       }
-      console.log('passed it');
       if (route.data.role.indexOf(user.role) !== -1) {
         return true;
       }

@@ -42,7 +42,7 @@
                 <a href="#" class="text-info">Register here</a>
               </div>
             </form>
-            <div *ngIf="loginFailed" class="alert alert-danger mt-3 mb-0">Incorrect Username or password</div>
+            <div *ngIf="loginFailed !== null" class="alert alert-danger mt-3 mb-0">{{loginFailed}}</div>
           </div>
         </div>
       </div>
@@ -97,7 +97,6 @@
                   <label>Confirm password</label>
                   <input type="password" name="confirmPassword"
                          class="form-control" formControlName="ConfirmPassword">
-                  <p class="text-danger" *ngIf="!checkPassword()"> Password and confirm password doesn't match</p>
                 </div> <!-- form-group end.// -->
               </div> <!-- form-row.// -->
             <!-- form-group end.// -->

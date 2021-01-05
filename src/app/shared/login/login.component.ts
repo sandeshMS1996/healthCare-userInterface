@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     lastname: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(3)])),
     email: new FormControl('', Validators.compose(
-      [Validators.required, Validators.minLength(6)])),
+      [Validators.required, Validators.minLength(6), Validators.email])),
     phone: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(10)])),
     password: new FormControl('', Validators.compose(
@@ -47,8 +47,7 @@ export class LoginComponent implements OnInit {
   });
   formSubmitted = false;
   action: string;
-  loginFailed = false;
-
+  loginFailed = null;
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(a => {
       this.action = a[`action`];
@@ -64,21 +63,20 @@ export class LoginComponent implements OnInit {
     const userModel = new UserModel();
     userModel.username = this.loginData.controls[`userName`].value;
     userModel.password = this.loginData.controls[`password`].value;
-    const b = this.authService
-      .authenticate(userModel.username, userModel.password);
-    console.log(b);
-    if (b) {
-      this.loginFailed = false;
-    }
-    else {
-      console.log('failed ' + this.user);
-      this.loginFailed = true;
-      this.loading = false;
-    }
-  }
-  checkPassword(): boolean {
-    console.log(this.registerData.controls[`password`] + ' ' + this.registerData.controls[`ConfirmPassword`]);
-    return !(this.registerData.controls[`password`] === this.registerData.controls[`ConfirmPassword`]);
+    this.authService
+      .authenticate(userModel.username, userModel.password)
+      .pipe(first())
+      .subscribe(() => {
+        this.router.navigate(['user']).then();
+        this.loading = false;
+        this.loginFailed = null;
+      }, error => {
+        console.log(error);
+        this.loading = false;
+        if (error.status === 400) {
+          this.loginFailed = 'Incorrect Username or password';
+        }
+      });
   }
   Register(): void {
     console.log(this.registerData);
@@ -90,7 +88,7 @@ export class LoginComponent implements OnInit {
       if (this.action === 'login') {
         this.loading = true;
         this.Login();
-      } else if (this.action === 'register' && this.checkPassword()) {
+      } else if (this.action === 'register') {
         this.Register();
       }
     } else {
