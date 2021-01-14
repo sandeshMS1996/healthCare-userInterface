@@ -10,11 +10,15 @@ import {ProductModel} from '../shared/Product.model';
 export class AdminService {
 
   constructor(private httpClient: HttpClient) { }
-  public AddNewProduct(product: ProductModel): Observable<any> {
-    console.log(JSON.stringify(product).slice( ));
-    return this.httpClient.post('http://localhost:8081/api/admin/add-new-product', JSON.stringify(product),
+  public AddNewProduct(product: ProductModel, selectedImage: any): Observable<any> {
+    product.dateAdded = undefined;
+    const formDate =  new FormData();
+    formDate.append( 'data', JSON.stringify(product));
+    formDate.append( 'file', selectedImage);
+    console.log(formDate);
+    return this.httpClient.post('http://localhost:8081/api/admin/add-new-product', formDate,
       {
-        headers: {'Content-Type': 'application/json; charset=utf-8'}})
+        headers: {enctype: 'multipart/form-data'}})
       .pipe(map( value => {
         console.log(value);
         return value;

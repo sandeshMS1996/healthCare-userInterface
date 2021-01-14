@@ -16,6 +16,7 @@ export class AddProductComponent implements OnInit {
   Banner: string;
   id: number;
   actioned: boolean;
+  selectedImage: any;
   registerData = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', Validators.compose(
@@ -57,17 +58,23 @@ export class AddProductComponent implements OnInit {
 
   submitForm(registerData: FormGroup): void {
       this.loading = true;
+      console.log(this.registerData);
       this.product = this.registerData.value;
       const c = new CategoryModel(1/*this.product.category.id*/);
       this.product.category = c;
       const p = new ProductCompany(8/*this.product.productCompany.id*/);
       this.product.productCompany = p;
-      this.adminService.AddNewProduct(this.product)
+      this.adminService.AddNewProduct(this.product, this.selectedImage)
         .pipe(first()).subscribe(value => {
         console.log(value);
         this.actioned = true;
         },
         error => console.log(error));
       this.loading = false;
+  }
+
+  onSlectImage(event): void {
+    this.selectedImage = event.target.files[0];
+    console.log(this.selectedImage);
   }
 }
