@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, Form, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {FromValidationService} from '../from-validation.service';
 import {UserModel} from '../User.model';
 import {AppAuthenticationService} from '../app-authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
+import {RegistrationService} from '../registration.service';
+/*import {forbiddenNameValidator} from '../Password.Custom.validator';*/
 
 @Component({
   selector: 'app-login',
@@ -12,11 +14,11 @@ import {first} from 'rxjs/operators';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   constructor(private validationService: FromValidationService,
               private authService: AppAuthenticationService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private regService: RegistrationService) {
     console.log('login component');
   }
   loginData = new FormGroup({
@@ -30,11 +32,11 @@ export class LoginComponent implements OnInit {
   passwordValidator: false;
   loading = false;
   registerData = new FormGroup({
-    firstname: new FormControl('', Validators.compose(
+    firstName: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(5)])),
     lastname: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(3)])),
-    email: new FormControl('', Validators.compose(
+    username: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(6), Validators.email])),
     phone: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(10)])),
@@ -44,10 +46,22 @@ export class LoginComponent implements OnInit {
     ConfirmPassword: new FormControl('', Validators.compose(
       [Validators.required],
     ))
-  });
+  }, {validators: this.forbiddenNameValidator('password', 'ConfirmPassword')});
   formSubmitted = false;
   action: string;
   loginFailed = null;
+  forbiddenNameValidator( cp: string, p: string): ValidatorFn {
+    return (group: AbstractControl): {[key: string]: any} | null => {
+      const cpass = group.get(cp).value;
+      const pass = group.get(p).value;
+      if (pass !== cpass) {
+        group.get(p).setErrors({noRep: true});
+        return  {forbiddenName: {noRep: true}};
+      }
+      group.get(cp).setErrors(null);
+      return null;
+    };
+  }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(a => {
       this.action = a[`action`];
@@ -67,7 +81,7 @@ export class LoginComponent implements OnInit {
       .authenticate(userModel.username, userModel.password)
       .pipe(first())
       .subscribe(() => {
-        this.router.navigate(['user']).then();
+        this.router.navigate(['admin']).then();
         this.loading = false;
         this.loginFailed = null;
       }, error => {
@@ -79,24 +93,42 @@ export class LoginComponent implements OnInit {
       });
   }
   Register(): void {
-    console.log(this.registerData);
+    const reg =  {};
+    // console.log(this.registerData);
+    Object.keys(this.registerData.controls).forEach( key => {
+      if (key === 'ConfirmPassword') {
+      } else {
+        console.log(key);
+        reg[key] = this.registerData.controls[key].value;
+      }
+    });
+    console.log(JSON.stringify(reg));
+    this.regService.register(reg).pipe(first())
+      .subscribe( data => {
+        console.log(data);
+      }, error => console.log(error));
   }
 
   submitForm(form: FormGroup): void {
-    console.log(this.action);
-    if (this.loginData.valid) {
+    console.log(form);
+    if (form.valid) {
       if (this.action === 'login') {
         this.loading = true;
         this.Login();
       } else if (this.action === 'register') {
+        console.log('reg');
         this.Register();
       }
     } else {
-      console.log('validate' + ' ' + form);
+      console.log('bug');
       this.evaluateUser(form);
     }
 
   }
 
+  dummyLoginAdmin() {
+    let model = new UserModel('a', 'a', 'ROLE_ADMIN', true);
+    localStorage.setItem('user', JSON.stringify(model));
+  }
 }
 

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {UserModel} from './User.model';
-import {BehaviorSubject, Observable, pipe, throwError} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Router} from '@angular/router';
-import {HttpErrorResponse, HttpClient, HttpHeaderResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import {catchError, first, map} from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,14 +27,15 @@ export class AppAuthenticationService {
   }
   public authenticate(username: string, password: string): Observable<any> {
     const body = 'client_id=client1' + '&grant_type=password' + '&scope=USER' + '&username=' + username + '&password=' + password;
-    return this.httpClient.post<any>('http://localhost:8080/oauth/token', body, {
+    return this.httpClient.post<any>('http://localhost:8082/oauth/token', body, {
       headers: new HttpHeaders({
         'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
         Authorization: 'Basic ' + btoa('client1:secret')
       })
     }).pipe(map(user => {
+      console.log(user);
       if (user && user[`access_token`]) {
-        const userData = new UserModel(username, user[`access_token`], 'ROLE_USER', true);
+        const userData = new UserModel(username, user[`access_token`], 'ROLE_ADMIN', true);
         this.userSubject.next(userData);
         AppAuthenticationService.storeUserData(userData);
       }

@@ -29,6 +29,7 @@ const routes: Routes = [
   imports: [
     SharedModule, UserModule, AdminModule, RouterModule.forRoot(routes), BrowserModule, HttpClientModule
   ],
+  exports: [RouterModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

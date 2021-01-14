@@ -2,6 +2,7 @@
   input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
   input.ng-dirty.ng-valid { border: solid 2px green; color: green}
 </style>
+<button (click)="dummyLoginAdmin()"> Dummy admin Login</button>
 <div *ngIf="action == 'login'">
   <div class="bg-danger text-white p-2 mb-2" *ngIf="formSubmitted && loginData.invalid">
     <h3> There are problems </h3>
@@ -71,7 +72,7 @@
               <div class="form-row">
                 <div class="col form-group">
                   <label>First name </label>
-                  <input type="text" name="firstName" formControlName="firstname" class="form-control" placeholder="">
+                  <input type="text" name="firstName" formControlName="firstName" class="form-control" placeholder="">
                 </div> <!-- form-group end.// -->
                 <div class="col form-group">
                   <label>Last name</label>
@@ -80,7 +81,7 @@
               </div> <!-- form-row end.// -->
               <div class="form-group">
                 <label>Email address</label>
-                <input type="email" name="email" class="form-control" formControlName="email" placeholder="">
+                <input type="email" name="email" class="form-control" formControlName="username" placeholder="">
                 <small class="form-text text-muted">We'll never share your email with anyone else.</small>
               </div> <!-- form-group end.// -->
             <div class="form-group">

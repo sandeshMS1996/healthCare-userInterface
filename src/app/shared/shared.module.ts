@@ -18,6 +18,6 @@ import {JwtInterseptorService} from './jwt-interseptor.service';
   ],
   providers: [RouteGuardService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterseptorService, multi: true}/*, AppAuthenticationService, FromValidationService*/],
-  exports: [HeaderComponent]
+    exports: [HeaderComponent, LoginComponent]
 })
 export class SharedModule { }
