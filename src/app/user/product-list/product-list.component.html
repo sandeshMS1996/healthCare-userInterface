@@ -1,0 +1,17 @@
+<div class="alert alert-danger" *ngIf="productList.length === 0">
+  <h1> No Products available</h1>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-4" *ngFor="let i of productList">
+      <div class="card" style="width: 25rem;">
+        <img [src]="'http://localhost:8081/images/' + i.id + '.png'" class="card-img-top" [alt]="i.imageName">
+        <div class="card-body">
+          <h5 class="card-title">{{i.name}}</h5>
+          <p class="card-text">{{i.description}}</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
