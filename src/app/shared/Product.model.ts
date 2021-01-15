@@ -1,10 +1,12 @@
 export class ProductModel {
   imageName: any;
   dateAdded: any;
-  constructor(public id?: number, public name?: string, public price?: number, public category?: CategoryModel,
+  category: CategoryModel;
+  constructor(public id?: number, public name?: string, public price?: number,  category?: CategoryModel,
               public description?: string, public stock?: number,
-              public productCompany?: ProductCompany, public notDisabled?: boolean, image?: any,
+              public notDisabled?: boolean, image?: any,
               dateAdded?: any) {
+    this.category = category;
     this.imageName = image;
     this.dateAdded = dateAdded;
   }
@@ -13,13 +15,15 @@ export class ProductModel {
 export class CategoryModel {
   activeCategory: boolean;
   name: string;
-  constructor(public id?: number, name?: string, activeCategory?: boolean) {
+  productCompanyList: ProductCompany[];
+  constructor(public id?: number, name?: string, activeCategory?: boolean, productCompanyList?: ProductCompany[]) {
     this.activeCategory = activeCategory;
+    this.productCompanyList = productCompanyList;
     this.name = name;
   }
 }
 
 export class ProductCompany {
-  constructor(public id?: number, public name?: string) {
+  constructor(public id?: number, public name?: string, public gstnumber?: string) {
   }
 }

@@ -18,32 +18,25 @@
                 <input type="number" name="price" class="form-control"
                        formControlName="price">
               </div>
-            </div><!-- form-row end.// -->
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label>Total Stock</label>
-                <input type="number" name="stock"
-                       class="form-control" formControlName="stock">
-              </div>
-              <div class="form-group col-md-6">
-                <label>Category</label>
-                <select class="form-control" formControlName="category">
-                  <option *ngFor="let c of categoryList" value="{{c.id}}">{{c.name}}</option>
-                </select>
-              </div>
             </div>
+              <div class="form-row">
+                <div formGroupName="category" class="col-sm-6 form-group">
+                  <label>Category</label>
+                  <select formControlName="id" class="form-control">
+                    <option *ngFor="let c of categoryList" value="{{c.id}}">{{c.name}}</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Total Stock</label>
+                  <input type="number" name="stock"
+                         class="form-control" formControlName="stock">
+                </div>
+              </div>
             <div class="form-group">
               <label>Brief Description of the product</label>
               <textarea class="form-control" rows="3" size="1000" formControlName="description"></textarea>
             </div>
-
             <div class="form-row">
-              <div class="col-sm-6 form-group">
-                <label>Company</label>
-                <select class="form-control" formControlName="productCompany">
-                  <option *ngFor="let i of companyList" value="{{i.id}}">{{i.name}}</option>
-                </select>
-              </div>
               <div class="form-group col-md-6">
                 <label>Enable Product</label>
                 <select class="form-control" formControlName="notDisabled">
@@ -51,11 +44,13 @@
                   <option>false</option>
                 </select>
               </div>
-            </div>
-              <div class="form-group">
-                <label>Upload Image</label>
-                <input type="file" class="form-control-file" (change)="onSlectImage($event)">
+              <div class="form-group col-md-6">
+                <div class="form-group">
+                  <label>Upload Image</label>
+                  <input type="file" class="form-control-file" (change)="onSlectImage($event)">
+                </div>
               </div>
+            </div>
             <button class="btn btn-primary">
               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
               {{!id ? 'Add' : 'Update' }} Product

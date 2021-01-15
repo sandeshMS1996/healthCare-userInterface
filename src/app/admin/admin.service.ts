@@ -28,7 +28,6 @@ export class AdminService {
   public getProductById(productId: number): Observable<any> {
     return this.httpClient.get('http://localhost:8081/api/customer/product/' + productId)
       .pipe(map( value => {
-        console.log(value);
         return value;
       }
       )) ;

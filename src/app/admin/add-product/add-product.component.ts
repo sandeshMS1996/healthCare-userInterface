@@ -25,15 +25,15 @@ export class AddProductComponent implements OnInit {
     price: new FormControl('', Validators.compose([Validators.required])),
     stock: new FormControl(),
     description: new FormControl(''),
-    category: new FormControl(''),
-    productCompany: new FormControl(''),
+    category: new FormGroup({
+      id: new FormControl()
+    }),
     notDisabled: new FormControl(''),
     dateAdded: new FormControl(''),
     imageName: new FormControl()
   });
   loading =  false;
   categoryList: CategoryModel[] = [];
-  companyList: ProductCompany[] = [];
   constructor(private activeRoute: ActivatedRoute,
               private Evaluationservice: FromValidationService,
               private adminService: AdminService,
@@ -43,19 +43,14 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.sharedService.getAllCategories().pipe(first())
       .subscribe(value => this.categoryList = value);
-    this.sharedService.getAllCompanies().pipe(first())
-      .subscribe(value => this.companyList = value);
     this.activeRoute.params.subscribe((param: Params) => {
       this.id = + param[`id`];
       if (this.id) {
         this.adminService.getProductById(this.id).pipe(first())
           .subscribe(value => {
             this.product = value;
-            console.log(this.product);
             this.Banner = 'Edit Product: ' + this.product.name;
-            this.registerData.setValue(this.product);
-            this.registerData.controls[`category`].setValue(this.product.category.id, {onlySelf: true});
-            this.registerData.controls[`productCompany`].setValue(this.product.productCompany.id, {onlySelf: true});
+            this.registerData.patchValue(this.product);
             this.registerData.controls[`notDisabled`].setValue(this.product.notDisabled, {onlySelf: true});
           });
       } else {
@@ -68,10 +63,12 @@ export class AddProductComponent implements OnInit {
       this.loading = true;
       console.log(this.registerData);
       this.product = this.registerData.value;
-      const c = new CategoryModel(1/*this.product.category.id*/);
+      console.log(this.registerData);
+      /*const c = new CategoryModel(1/!*this.product.category.id*!/);
       this.product.category = c;
-      const p = new ProductCompany(8/*this.product.productCompany.id*/);
-      this.product.productCompany = p;
+      const p = new ProductCompany(8/!*this.product.productCompany.id*!/);
+      this.product.productCompany = p;*/
+      console.log(JSON.stringify(this.product));
       this.adminService.AddNewProduct(this.product, this.selectedImage)
         .pipe(first()).subscribe(value => {
         console.log(value);
