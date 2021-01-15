@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost',
-  serverPort: '8080'
+  resourceServerURl: 'http://localhost:8081/',
+  authServerUrl: 'http://localhost:8080/'
 };
 
 /*

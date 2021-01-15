@@ -18,7 +18,7 @@ const routes: Routes = [
     canActivate: [RouteGuardService]},
   { path: 'user', /*component: UserComponent,*/
     loadChildren: () => import('./user/user.module').then(m => m.UserModule),
-    data: {role: ['ROLE_USER']},
+    data: {role: ['ROLE_USER', 'ROLE_ADMIN']},
     canActivate: [RouteGuardService] },
   { path: ':action', component: LoginComponent},
   { path: '**', redirectTo: '', pathMatch: 'full'

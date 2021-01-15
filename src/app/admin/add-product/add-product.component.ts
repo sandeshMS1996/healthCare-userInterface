@@ -6,6 +6,7 @@ import {FromValidationService} from '../../shared/from-validation.service';
 import {AdminService} from '../admin.service';
 import {first} from 'rxjs/operators';
 import {verifySupportedTypeScriptVersion} from '@angular/compiler-cli/src/typescript_support';
+import {SharedService} from '../../shared/shared.service';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -31,12 +32,19 @@ export class AddProductComponent implements OnInit {
     imageName: new FormControl()
   });
   loading =  false;
+  categoryList: CategoryModel[] = [];
+  companyList: ProductCompany[] = [];
   constructor(private activeRoute: ActivatedRoute,
               private Evaluationservice: FromValidationService,
-              private adminService: AdminService
+              private adminService: AdminService,
+              private sharedService: SharedService
               ) { }
 
   ngOnInit(): void {
+    this.sharedService.getAllCategories().pipe(first())
+      .subscribe(value => this.categoryList = value);
+    this.sharedService.getAllCompanies().pipe(first())
+      .subscribe(value => this.companyList = value);
     this.activeRoute.params.subscribe((param: Params) => {
       this.id = + param[`id`];
       if (this.id) {

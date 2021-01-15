@@ -1,4 +1,3 @@
-
 <h1 class="card-header"> {{Banner}}</h1>
 <div class="container">
   <div class="alert alert-success" *ngIf="actioned">
@@ -29,11 +28,7 @@
               <div class="form-group col-md-6">
                 <label>Category</label>
                 <select class="form-control" formControlName="category">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  <option *ngFor="let c of categoryList" value="{{c.id}}">{{c.name}}</option>
                 </select>
               </div>
             </div>
@@ -46,11 +41,7 @@
               <div class="col-sm-6 form-group">
                 <label>Company</label>
                 <select class="form-control" formControlName="productCompany">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>8</option>
+                  <option *ngFor="let i of companyList" value="{{i.id}}">{{i.name}}</option>
                 </select>
               </div>
               <div class="form-group col-md-6">
