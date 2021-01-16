@@ -9,13 +9,16 @@ import {SharedService} from '../../shared/shared.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
+  emptyList = false;
   productList: ProductModel[] = [];
   constructor(private sharedService: SharedService) { }
   ngOnInit(): void {
     this.sharedService.getAllProducts().pipe(first())
       .subscribe(value => {
         this.productList = value;
-        console.log(value);
+        if ( this.productList.length === 0) {
+          this.emptyList = true;
+        }
       });
   }
 

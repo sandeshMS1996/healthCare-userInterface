@@ -9,14 +9,13 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductFliterComponent } from './product-fliter/product-fliter.component';
 
 const routing = RouterModule.forChild([
-  { path: '', component: UserComponent, children: [
-      {path: 'products', component: ProductListComponent}
-    ]},
+  { path: 'products', component: UserComponent},
 ]);
 @NgModule({
   declarations: [UserComponent, ProductListComponent, ProductFliterComponent],
   imports: [
     CommonModule, SharedModule, routing
-  ]
+  ],
+  exports: [ProductListComponent]
 })
 export class UserModule { }

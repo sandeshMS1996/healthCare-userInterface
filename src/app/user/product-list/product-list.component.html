@@ -1,17 +1,37 @@
-<div class="alert alert-danger" *ngIf="productList.length === 0">
+<div class="alert alert-danger" *ngIf="emptyList">
   <h1> No Products available</h1>
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-4" *ngFor="let i of productList">
-      <div class="card" style="width: 25rem;">
-        <img [src]="'http://localhost:8081/images/' + i.id + '.png'" class="card-img-top" [alt]="i.imageName">
-        <div class="card-body">
-          <h5 class="card-title">{{i.name}}</h5>
-          <p class="card-text">{{i.description}}</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="col-sm-6 col-md-4 col-lg-4" style="margin-top: 1%" *ngFor="let i of productList">
+      <!-- Card -->
+      <div class="card">
+        <div class="view zoom overlay">
+          <a href="#!">
+            <div class="mask">
+              <img class="img-fluid w-100"
+                   src="{{'http://localhost:8081/images/' + i.id + '.png'}}">
+              <div class="mask rgba-black-slight"></div>
+            </div>
+          </a>
         </div>
+
+        <div class="card-body text-center">
+
+          <h4>{{i.name}}:</h4>
+          <p> {{i.description}}</p>
+          <hr>
+          <h6 class="mb-3">
+            <span class="text-danger mr-1">{{i.price | currency}}</span>
+          </h6>
+
+          <button type="button" class="btn btn-primary btn-sm mr-1 mb-2">
+            <i class="fas fa-shopping-cart pr-2"></i>Add to cart
+          </button>
+        </div>
+
       </div>
+      <!-- Card -->
     </div>
   </div>
 </div>

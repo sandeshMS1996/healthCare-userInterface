@@ -1,1 +1,16 @@
-<p>product-fliter works!</p>
+<br>
+<div class="input-group">
+  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+         aria-describedby="search-addon" />
+</div>
+<hr>
+<h4> Search By Category</h4>
+<div *ngFor="let i of categoryList">
+  <a  href="#" (click)="onSearch(0, i.id)">{{i.name | titlecase}}</a>
+</div>
+<br>
+<h4> Select Company</h4>
+<div *ngFor="let i of CompanyList">
+  <a href="#" (click)="onSearch(i.id, 0)">{{i.name | titlecase}}</a>
+</div>
+

@@ -1,3 +1,11 @@
 <app-header></app-header>
-<p>user works!: {{username}}</p>
-<router-outlet></router-outlet>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2 col-lg-2 border-left">
+        <app-product-fliter></app-product-fliter>
+    </div>
+    <div class="col-sm-10 col-lg-10 border-left">
+      <app-product-list></app-product-list>
+    </div>
+  </div>
+</div>
