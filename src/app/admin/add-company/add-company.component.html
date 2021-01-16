@@ -1,0 +1,48 @@
+<style>
+  input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
+  input.ng-dirty.ng-valid { border: solid 2px green; color: green}
+</style>
+<ul class="text-danger" *ngFor="let e of errors">
+  <li>{{e}}</li>
+</ul>
+<div class="container">
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h3> Add new Brand</h3>
+      </div>
+      <div class="alert alert-success" *ngIf="success && submitted">
+        <h2>New Company "{{company.name}}" has been added</h2>
+      </div>
+
+      <div class="alert alert-danger" *ngIf="!success && submitted">
+        <h2>Company "{{company.name}}" Could not be added</h2>
+      </div>
+      <article class="card-body">
+        <form [formGroup]="companyTemplate" (ngSubmit)="submitForm()">
+          <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" rows="3" size="1000" formControlName="name">
+          </div>
+          <div class="form-group">
+            <label>GST Number</label>
+            <input class="form-control" rows="3" size="1000" formControlName="gstnumber">
+          </div>
+          <div class="form-group">
+            <label>Account Number</label>
+            <input class="form-control" rows="3" size="1000" formControlName="accountNumber">
+          </div>
+          <div class="form-group">
+            <label>Contact Number</label>
+            <input class="form-control" rows="3" size="1000" formControlName="contactNumber">
+          </div>
+          <button class="btn btn-primary" >
+            Add Company
+          </button>
+        </form>
+      </article>
+    </div>
+  </div>
+</div>
+</div>

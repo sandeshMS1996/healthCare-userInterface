@@ -1,3 +1,5 @@
+import * as buffer from 'buffer';
+
 export class ProductModel {
   imageName: any;
   dateAdded: any;
@@ -14,16 +16,20 @@ export class ProductModel {
 
 export class CategoryModel {
   activeCategory: boolean;
-  name: string;
   productCompanyList: ProductCompany[];
-  constructor(public id?: number, name?: string, activeCategory?: boolean, productCompanyList?: ProductCompany[]) {
+  constructor(public id?: number, public name?: string, activeCategory?: boolean,
+              productCompanyList?: ProductCompany[], ) {
     this.activeCategory = activeCategory;
     this.productCompanyList = productCompanyList;
-    this.name = name;
   }
 }
 
 export class ProductCompany {
-  constructor(public id?: number, public name?: string, public gstnumber?: string) {
+  contactNumber: number;
+  accountNumber: number;
+  constructor(public id?: number, public name?: string, public gstnumber?: string, accountNumber?: number,
+              contactNumber?: number) {
+    this.contactNumber = contactNumber;
+    this.accountNumber = accountNumber;
   }
 }

@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3> Add new Category</h3>
+        </div>
+        <article class="card-body">
+          <form [formGroup]="categoryTemplate" (ngSubmit)="submitForm()">
+            <div class="form-group">
+              <label>Name</label>
+              <input class="form-control" rows="3" size="1000" formControlName="name">
+            </div>
+            <div class="form-group">
+              <label>Select Companies</label>
+              <select multiple class="form-control" formControlName="productCompanyList">
+                <option *ngFor="let i of companies" [value]="i">{{i.name}}</option>
+              </select>
+            </div>
+            <button class="btn btn-primary">
+              Add Company
+            </button>
+          </form>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+
+<pre>{{createdCategory | json}}</pre>

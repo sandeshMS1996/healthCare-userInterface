@@ -9,6 +9,8 @@ import {RouteGuardService} from '../shared/route-guard.service';
 import { AddProductComponent } from './add-product/add-product.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ProductListComponent} from '../user/product-list/product-list.component';
+import { AddCompanyComponent } from './add-company/add-company.component';
+import { AddCategoryComponent } from './add-category/add-category.component';
 
 
 const routing = RouterModule.forChild([
@@ -16,11 +18,13 @@ const routing = RouterModule.forChild([
   children: [
     { path: 'product/:id/edit', component: AddProductComponent},
     { path: 'product/new', component: AddProductComponent},
-    { path: 'products', component: ProductListComponent}
+    { path: 'products', component: ProductListComponent},
+    { path: 'add-new-company', component: AddCompanyComponent},
+    { path: 'add-new-category', component: AddCategoryComponent}
   ]}
 ]);
 @NgModule({
-  declarations: [AdminComponent, AddProductComponent],
+  declarations: [AdminComponent, AddProductComponent, AddCompanyComponent, AddCategoryComponent],
   imports: [
     CommonModule, SharedModule, routing, ReactiveFormsModule
   ],
