@@ -1,4 +1,3 @@
-<!--Section: Block Content-->
 <app-header></app-header>
 <br>
 <br>
@@ -58,17 +57,16 @@
       <hr>
       <nav aria-label="Page navigation example">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" (click)="updatecart(-1)">-</a></li>
-          <li class="page-item"><a class="page-link" href="#">{{cartService.getQuantityByproductId(product.id)}}</a></li>
+          <li class="page-item"><button class="page-link" [disabled]="cartService.getQuantityByproductId(product.id) <= 0" (click)="updatecart(-1)">-</button></li>
+          <li class="page-item"><a class="page-link" href="#">
+            {{cartService.getQuantityByproductId(product.id)}}
+          </a></li>
           <li class="page-item"><a class="page-link" (click)="updatecart(1)">+</a></li>
         </ul>
       </nav>
-      <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
-      <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i
-        class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+      <button type="button" routerLink="/user/cart" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
     </div>
   </div>
-
 </section>
 </div>
 

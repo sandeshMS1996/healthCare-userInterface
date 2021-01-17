@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AppAuthenticationService} from '../app-authentication.service';
+import {UserService} from '../../user/user.service';
+import {CartService} from '../../user/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +11,7 @@ import {AppAuthenticationService} from '../app-authentication.service';
 })
 export class HeaderComponent implements OnInit {
   username: string;
-  constructor(private router: Router, private AuthService: AppAuthenticationService) {
+  constructor(private router: Router, private AuthService: AppAuthenticationService, public cartService: CartService) {
   }
 
   ngOnInit(): void {

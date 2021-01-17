@@ -22,14 +22,21 @@ export class CartService {
       this.storeCart();
   }
   private storeCart(): void {
+    this.calculateTotalPrice();
     localStorage.setItem('cart', JSON.stringify(this.cart));
+    localStorage.setItem('price', this.price.toString());
     this.retrieveCart();
   }
   private retrieveCart(): void {
+    this.price = + localStorage.getItem('price');
     this.cart = JSON.parse(localStorage.getItem('cart'));
     if (!this.cart) {
       this.cart = [];
+      this.price = 0;
     }
+  }
+  getTotalPrice(): number {
+    return this.price;
   }
   public getQuantityByproductId(id: number): number {
     const index = this.cart.findIndex(value => value.product.id === id);
@@ -38,4 +45,29 @@ export class CartService {
     }
     return 0;
   }
+  public getCartSize(): number {
+    return this.cart.reduce((previousValue, currentValue) =>
+      previousValue + currentValue.quantity, 0);
+  }
+  public getCart(): CartModel[] {
+    return this.cart;
+  }
+  public removeFromCart(id: number): void {
+    const index = this.cart.findIndex(value => value.product.id === id);
+    if (index >= -1) {
+      this.cart.splice(index, 1);
+      this.storeCart();
+      this.calculateTotalPrice();
+    }
+  }
+  private calculateTotalPrice(): void {
+    let price1 = 0;
+    for (const c of this.cart) {
+       price1 = price1 + c.quantity * c.product.price;
+       console.log('cal: ' +  c.product.name + ' ' + c.product.price + ' ' + c.quantity + ' =>' + price1);
+    }
+    this.price = price1;
+    console.log(this.price);
+  }
+
 }

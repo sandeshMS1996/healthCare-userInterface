@@ -9,14 +9,16 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductFliterComponent } from './product-fliter/product-fliter.component';
 import { CartComponent } from './cart/cart.component';
 import { ProductDescriptionComponent } from './product-description/product-description.component';
-import { HeaderComponent } from './header/header.component';
+import { UserHeaderComponent } from './header/user-header.component';
 
 const routing = RouterModule.forChild([
   { path: 'products', component: UserComponent},
-  {path: 'product/:id', component: ProductDescriptionComponent}
+  {path: 'product/:id', component: ProductDescriptionComponent},
+  {path: 'cart', component: CartComponent}
 ]);
 @NgModule({
-  declarations: [UserComponent, ProductListComponent, ProductFliterComponent, CartComponent, ProductDescriptionComponent, HeaderComponent],
+  declarations: [UserComponent, ProductListComponent, ProductFliterComponent,
+    CartComponent, ProductDescriptionComponent, UserHeaderComponent],
   imports: [
     CommonModule, SharedModule, routing
   ],

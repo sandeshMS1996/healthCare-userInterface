@@ -19,6 +19,7 @@ export class ProductDescriptionComponent implements OnInit {
   product: ProductModel;
   constructor(private ActiveRoute: ActivatedRoute, private sharedService: SharedService,
               public cartService: CartService) {
+    this.cart.quantity = 0;
   }
   ngOnInit(): void {
     this.ActiveRoute.params.subscribe((value: Params) => {
