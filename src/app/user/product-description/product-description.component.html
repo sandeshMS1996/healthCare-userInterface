@@ -1,0 +1,75 @@
+<!--Section: Block Content-->
+<app-header></app-header>
+<br>
+<br>
+<div class="alert-danger" *ngIf="!product">
+  <h3> Product Not found</h3>
+</div>
+<div *ngIf="product">
+<section class="mb-5">
+
+  <div class="row">
+    <div class="col-md-6 mb-4 mb-md-0">
+
+      <div id="mdb-lightbox-ui"></div>
+
+      <div class="mdb-lightbox">
+
+        <div class="row product-gallery mx-1">
+
+          <div class="col-12 mb-0">
+            <figure class="view overlay rounded z-depth-1 main-img">
+              <a href=""
+                 data-size="710x823">
+                <img src="{{imageurl + 'images/'+ product.id + '.png'}}"
+                     class="img-fluid z-depth-1">
+              </a>
+            </figure>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="col-md-6">
+
+      <h5>{{product.name}}</h5>
+      <p class="mb-2 text-muted text-uppercase small">{{product.category?.name | uppercase}}</p>
+      <p><span class="mr-1"><strong>{{product.price | currency}}</strong></span></p>
+      <p class="pt-1">{{product.description}}</p>
+      <div class="table-responsive">
+        <table class="table table-sm table-borderless mb-0">
+          <tbody>
+          <tr>
+            <th class="pl-0 w-25" scope="row"><strong>Model</strong></th>
+            <td>Shirt 5407X</td>
+          </tr>
+          <tr>
+            <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
+            <td>Black</td>
+          </tr>
+          <tr>
+            <th class="pl-0 w-25" scope="row"><strong>Delivery</strong></th>
+            <td>USA, Europe</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" (click)="updatecart(-1)">-</a></li>
+          <li class="page-item"><a class="page-link" href="#">{{cartService.getQuantityByproductId(product.id)}}</a></li>
+          <li class="page-item"><a class="page-link" (click)="updatecart(1)">+</a></li>
+        </ul>
+      </nav>
+      <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
+      <button type="button" class="btn btn-light btn-md mr-1 mb-2"><i
+        class="fas fa-shopping-cart pr-2"></i>Add to cart</button>
+    </div>
+  </div>
+
+</section>
+</div>
+
+<!--Section: Block Content-->

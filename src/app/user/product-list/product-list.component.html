@@ -7,18 +7,18 @@
       <!-- Card -->
       <div class="card">
         <div class="view zoom overlay">
-          <a href="#!">
+          <a>
             <div class="mask">
               <img class="img-fluid w-100"
-                   src="{{'http://localhost:8081/images/' + i.id + '.png'}}">
+                   src="{{imageurl + 'images/'+ i.id + '.png'}}">
               <div class="mask rgba-black-slight"></div>
             </div>
           </a>
         </div>
 
         <div class="card-body text-center">
-
-          <h4>{{i.name}}:</h4>
+          <p>product/{{i.id}}</p>
+          <a routerLink="/user/product/{{i.id}}"><h4>{{i.name}}</h4></a>
           <p> {{i.description}}</p>
           <hr>
           <h6 class="mb-3">
