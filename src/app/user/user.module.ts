@@ -12,9 +12,12 @@ import { ProductDescriptionComponent } from './product-description/product-descr
 import { UserHeaderComponent } from './header/user-header.component';
 
 const routing = RouterModule.forChild([
-  { path: 'products', component: UserComponent},
-  {path: 'product/:id', component: ProductDescriptionComponent},
-  {path: 'cart', component: CartComponent}
+    { path: 'user', component: UserComponent,
+      children: [
+        {path: 'products', component: ProductListComponent },
+        {path: 'product/:id', component: ProductDescriptionComponent},
+        {path: 'cart', component: CartComponent}
+      ]},
 ]);
 @NgModule({
   declarations: [UserComponent, ProductListComponent, ProductFliterComponent,

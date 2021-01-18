@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ProductModel} from '../../shared/Product.model';
+import {CategoryModel, ProductCompany, ProductModel} from '../../shared/Product.model';
 import {first} from 'rxjs/operators';
 import {SharedService} from '../../shared/shared.service';
 import {environment} from '../../../environments/environment';
 import {CartService} from '../cart.service';
 import {CartModel} from '../cart.model';
+import {UserService} from '../user.service';
+import {CartComponent} from '../cart/cart.component';
 
 @Component({
   selector: 'app-product-list',
@@ -15,8 +17,14 @@ export class ProductListComponent implements OnInit {
   imageurl = environment.resourceServerURl;
   emptyList = false;
   productList: ProductModel[] = [];
-  constructor(private sharedService: SharedService, public cartService: CartService) { }
+  categoryList: CategoryModel[];
+  CompanyList: ProductCompany[];
+  constructor(private sharedService: SharedService, public cartService: CartService, private userService: UserService) { }
   ngOnInit(): void {
+    this.sharedService.getAllCategories().pipe(first())
+      .subscribe(value => this.categoryList = value);
+    this.sharedService.getAllCompanies().pipe(first())
+      .subscribe(value => this.CompanyList = value);
     this.sharedService.getAllProducts().pipe(first())
       .subscribe(value => {
         this.productList = value;
@@ -30,5 +38,15 @@ export class ProductListComponent implements OnInit {
     const model = new CartModel();
     model.product = i;
     this.cartService.addToCart(model, 1);
+  }
+  onSearch(id: number): void {
+  }
+
+  searchByCompany(id: number): void {
+    this.productList = [];
+    this.userService.getProductsByCompany(id).pipe(first())
+      .subscribe(value => {
+        this.productList = value;
+      });
   }
 }
