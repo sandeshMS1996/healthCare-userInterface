@@ -11,6 +11,7 @@ import {RouteGuardService} from './shared/route-guard.service';
 import {HomeComponent} from './shared/home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {JwtInterseptorService} from './shared/jwt-interseptor.service';
+import {CartComponent} from './user/cart/cart.component';
 const routes: Routes = [
   { path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
@@ -30,6 +31,7 @@ const routes: Routes = [
     SharedModule, UserModule, AdminModule, RouterModule.forRoot(routes), BrowserModule, HttpClientModule
   ],
   exports: [RouterModule],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CartComponent]
 })
 export class AppModule { }

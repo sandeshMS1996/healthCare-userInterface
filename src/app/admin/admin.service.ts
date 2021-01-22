@@ -50,4 +50,18 @@ export class AdminService {
       return value;
     }));
   }
+  public getCompanyByCategoryId(id: number): Observable<any> {
+    return this.httpClient.get(environment.resourceServerURl + 'api/customer/get-category-by-id/' + id)
+      .pipe(map(value => {
+        return value;
+      }));
+  }
+  public updateProductDiscount(productId: number, updatedDiscount: number): Observable<any> {
+    return this.httpClient.
+    post(environment.resourceServerURl + 'api/admin/update-product-discount/' +
+      productId + '?updated-discount=' + updatedDiscount, '')
+      .pipe(map(value => {
+        return value;
+      }));
+  }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProductCompany} from '../../shared/Product.model';
+import {CategoryModel, ProductCompany} from '../../shared/Product.model';
 import {AdminService} from '../admin.service';
 import {first} from 'rxjs/operators';
 import {FromValidationService} from '../../shared/from-validation.service';
+import {SharedService} from '../../shared/shared.service';
 
 @Component({
   selector: 'app-add-company',
@@ -11,20 +12,31 @@ import {FromValidationService} from '../../shared/from-validation.service';
   styleUrls: ['./add-company.component.css']
 })
 export class AddCompanyComponent implements OnInit {
-  errors: string[] = [];
+  banner = '';
+  flag = false;
   company =  new ProductCompany();
   success: boolean;
   submitted = false;
+  categories: CategoryModel[] = [];
   companyTemplate  = new FormGroup({
     name: new FormControl('', Validators.required),
     gstnumber: new FormControl('', Validators.required),
     isEnabled: new FormControl(true),
     accountNumber: new FormControl('', Validators.required),
-    contactNumber: new FormControl('', Validators.required)
+    contactNumber: new FormControl('', Validators.required),
+    discount: new FormControl(0),
+    categories: new FormGroup({
+      id: new FormControl([])
+    })
   });
-  constructor(private adminService: AdminService, private evaluationService: FromValidationService) { }
+  constructor(private adminService: AdminService, public evaluationService: FromValidationService,
+              private sharedService: SharedService) { }
 
   ngOnInit(): void {
+    this.sharedService.getAllCompanies().pipe(first())
+      .subscribe(value => {
+        this.categories = value;
+      });
   }
 
   submitForm(): void {
@@ -34,15 +46,17 @@ export class AddCompanyComponent implements OnInit {
       this.companyTemplate.reset();
       console.log(JSON.stringify(this.company));
       this.adminService.addNewCompany(this.company)
-        .pipe(first()).subscribe(value => {
-          this.errors = [];
-          this.company = value;
+        .pipe(first()).subscribe((value: ProductCompany) => {
+          this.banner = 'Company ' + value.name + ' has been added successfully';
           this.success = true;
+          this.submitted = false;
       }, error => {
+          this.banner = 'new Company could not be added';
           this.success = false;
+          this.submitted = false;
       });
   } else {
-        this.errors = this.evaluationService.evaluateUser(this.companyTemplate);
+      this.flag = true;
     }
 
 }

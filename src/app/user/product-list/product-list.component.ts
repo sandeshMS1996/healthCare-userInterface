@@ -41,7 +41,6 @@ export class ProductListComponent implements OnInit {
   }
   onSearch(id: number): void {
   }
-
   searchByCompany(id: number): void {
     this.productList = [];
     this.userService.getProductsByCompany(id).pipe(first())

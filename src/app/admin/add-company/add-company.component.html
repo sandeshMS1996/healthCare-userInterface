@@ -2,9 +2,11 @@
   input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
   input.ng-dirty.ng-valid { border: solid 2px green; color: green}
 </style>
-<ul class="text-danger" *ngFor="let e of errors">
-  <li>{{e}}</li>
-</ul>
+<div *ngIf="flag">
+  <ul class="text-danger" *ngFor="let e of evaluationService.evaluateUser(companyTemplate)">
+    <li>{{e}}</li>
+  </ul>
+</div>
 <div class="container">
 <div class="row justify-content-center">
   <div class="col-md-8">
@@ -12,12 +14,8 @@
       <div class="card-header">
         <h3> Add new Brand</h3>
       </div>
-      <div class="alert alert-success" *ngIf="success && submitted">
-        <h2>New Company "{{company.name}}" has been added</h2>
-      </div>
-
-      <div class="alert alert-danger" *ngIf="!success && submitted">
-        <h2>Company "{{company.name}}" Could not be added</h2>
+      <div [class.text-danger]="!success" [class.text-success]="success">
+        <h2>{{banner}}</h2>
       </div>
       <article class="card-body">
         <form [formGroup]="companyTemplate" (ngSubmit)="submitForm()">
@@ -37,7 +35,18 @@
             <label>Contact Number</label>
             <input class="form-control" rows="3" size="1000" formControlName="contactNumber">
           </div>
+          <div class="form-group">
+            <label>Discount</label>
+            <input type="number" class="form-control" rows="3" size="1000" formControlName="discount">
+          </div>
+          <div class="form-group" formGroupName="categories" *ngIf="categories.length > 0">
+            <label>Category</label>
+            <select multiple formControlName="id" class="form-control">
+              <option *ngFor="let c of categories" value="{{c.id}}">{{c.name}}</option>
+            </select>
+          </div>
           <button class="btn btn-primary" >
+            <span *ngIf="submitted" class="spinner-border spinner-border-sm mr-1"></span>
             Add Company
           </button>
         </form>

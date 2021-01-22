@@ -1,0 +1,88 @@
+
+<div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+     id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Category
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" *ngFor="let i of categoryList">
+    <a class="dropdown-item" *ngFor="let i of categoryList">{{i.name}}</a>
+  </div>
+</div>
+
+<div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink1"
+     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Company
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+    <a class="dropdown-item" *ngFor="let c of CompanyList">{{c.name}}</a>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-8" style="border-right: #414a5c solid 2px">
+      <table class="table table-striped ">
+        <thead>
+        <tr class="table-primary">
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">
+            Discount
+          </th>
+          <th scope="col">
+            Price
+          </th>
+          <th scope="col">
+            Stock
+          </th>
+          <th scope="col">
+            Action
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let p of productList" (click)="updateSelectedProduct(p)">
+          <td>{{p.id}}</td>
+          <td>{{p.name}}</td>
+          <td>{{p.discount}}</td>
+          <td>{{p.price}}</td>
+          <td>{{p.stock}}</td>
+          <td>
+            <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#"
+                 role="button" id="dropdownMenuLink2"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Action
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                <a class="dropdown-item" (click)="updateSelectionMode('discount')">Update Discount</a>
+                <a class="dropdown-item" (click)="updateSelectionMode('avaialabality')">{{p.notDisabled ? 'Disable' : 'Enable'}}</a>
+                <a class="dropdown-item" routerLink="/admin/product/{{p.id}}/edit"> Edit Product</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-3">
+      <div class="form-group" *ngIf="selectedProduct && updateMode === 'discount'">
+        <h4>{{selectedProduct.name | uppercase}}:</h4>
+        <label> Discount</label>
+          <input type="text" [(ngModel)]="discount" class="form-control" value="{{selectedProduct.discount}}">
+          <button class="btn btn-primary" (click)="updateDiscount()">Update Discount</button>
+      </div>
+
+      <div class="form-group" *ngIf="selectedProduct && updateMode === 'avaialabality'">
+        <h4>{{selectedProduct.name | uppercase}}:</h4>
+        <label> Availability</label>
+        <select class="form-control">
+          <option>Enable</option>
+          <option>Disable</option>
+        </select>
+        <button class="btn btn-primary">Update Availability</button>
+      </div>
+    </div>
+  </div>
+</div>

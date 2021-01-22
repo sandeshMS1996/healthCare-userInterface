@@ -30,10 +30,20 @@ export class AddProductComponent implements OnInit {
     }),
     notDisabled: new FormControl(''),
     dateAdded: new FormControl(''),
-    imageName: new FormControl()
+    imageName: new FormControl(),
+    discount: new FormControl(0),
+    productCompany: new FormGroup({
+      id: new FormControl()
+    }),
+    productDescription: new FormGroup({
+      id: new FormControl(),
+      composition: new FormControl(),
+      doseForm: new FormControl()
+    })
   });
   loading =  false;
   categoryList: CategoryModel[] = [];
+  companies: ProductCompany[] = [];
   constructor(private activeRoute: ActivatedRoute,
               private Evaluationservice: FromValidationService,
               private adminService: AdminService,
@@ -42,7 +52,14 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.sharedService.getAllCategories().pipe(first())
-      .subscribe(value => this.categoryList = value);
+      .subscribe((value: CategoryModel[]) => {
+        if (value?.length  === 0) {
+          console.log('disabling form group');
+          this.registerData.disable();
+          return;
+        }
+        this.categoryList = value;
+      });
     this.activeRoute.params.subscribe((param: Params) => {
       this.id = + param[`id`];
       if (this.id) {
@@ -81,5 +98,21 @@ export class AddProductComponent implements OnInit {
   onSlectImage(event): void {
     this.selectedImage = event.target.files[0];
     console.log(this.selectedImage);
+  }
+  getCompaies(id: any): void {
+    this.registerData.controls[`productDescription`].reset();
+    console.log('calling change' + id);
+    this.adminService.getCompanyByCategoryId(id).pipe(first())
+      .subscribe((value: CategoryModel) => {
+        console.log(value);
+        this.companies = value.productCompanyList;
+      });
+  }
+
+  conertToArray(): void {
+    // @ts-ignore
+    const data = this.registerData.controls[`productDescription`].controls[`composition`].value;
+    // @ts-ignore
+    this.registerData.controls[`productDescription`].controls[`composition`].setValue(data.split(','));
   }
 }
