@@ -12,6 +12,8 @@ import {ProductListComponent} from '../user/product-list/product-list.component'
 import { AddCompanyComponent } from './add-company/add-company.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { ProductManagerComponent } from './product-manager/product-manager.component';
+import { CategoryManagerComponent } from './category-manager/category-manager.component';
+import { CompanyManagerComponent } from './company-manager/company-manager.component';
 
 
 const routing = RouterModule.forChild([
@@ -21,11 +23,14 @@ const routing = RouterModule.forChild([
     { path: 'product/new', component: AddProductComponent},
     { path: 'products', component: ProductManagerComponent},
     { path: 'add-new-company', component: AddCompanyComponent},
-    { path: 'add-new-category', component: AddCategoryComponent}
+    { path: 'add-new-category', component: AddCategoryComponent},
+    { path: 'categories', component: CategoryManagerComponent},
+    { path: 'companies', component: CompanyManagerComponent}
   ]}
 ]);
 @NgModule({
-  declarations: [AdminComponent, AddProductComponent, AddCompanyComponent, AddCategoryComponent, ProductManagerComponent],
+  declarations: [AdminComponent, AddProductComponent,
+    AddCompanyComponent, AddCategoryComponent, ProductManagerComponent, CategoryManagerComponent, CompanyManagerComponent],
   imports: [
     CommonModule, SharedModule, routing, ReactiveFormsModule, FormsModule
   ],

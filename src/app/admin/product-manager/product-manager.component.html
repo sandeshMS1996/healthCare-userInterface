@@ -1,4 +1,4 @@
-
+<!--
 <div class="dropdown show">
   <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
      id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -8,8 +8,8 @@
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" *ngFor="let i of categoryList">
     <a class="dropdown-item" *ngFor="let i of categoryList">{{i.name}}</a>
   </div>
-</div>
-
+</div>-->
+<!--
 <div class="dropdown show">
   <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink1"
      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -18,7 +18,7 @@
   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
     <a class="dropdown-item" *ngFor="let c of CompanyList">{{c.name}}</a>
   </div>
-</div>
+</div>-->
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-8" style="border-right: #414a5c solid 2px">
@@ -75,7 +75,7 @@
       </div>
 
       <div class="form-group" *ngIf="selectedProduct && updateMode === 'avaialabality'">
-        <h4>{{selectedProduct.name | uppercase}}:</h4>
+        <h4><u>{{selectedProduct.name | uppercase}}:</u></h4>
         <label> Availability</label>
         <select class="form-control">
           <option>Enable</option>

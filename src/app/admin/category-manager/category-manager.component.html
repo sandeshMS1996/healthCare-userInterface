@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-8" style="border-right: #414a5c solid 2px">
+      <table class="table table-striped ">
+        <thead>
+        <tr class="table-primary">
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">
+            Discount
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let c of categories" (click)="updateSelectedcategory(c)">
+          <td>{{c.id}}</td>
+          <td>{{c.name}}</td>
+          <td>{{c.discount}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-3">
+      <div [class.alert-success]="success" [class.alert-danger]="!success">
+        {{banner}}
+      </div>
+      <div class="form-group" *ngIf="selectedCategory">
+        <h4>{{selectedCategory.name | uppercase}}:</h4>
+        <label> Discount</label>
+        <input type="number" min="0" max="90" [(ngModel)]="discount" class="form-control" value="{{selectedCategory.discount}}">
+        <button class="btn btn-primary" (click)="updateDiscount()" [disabled]="submitted">
+          <span *ngIf="submitted" class="spinner-border spinner-border-sm mr-1"></span>
+          Update Discount
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

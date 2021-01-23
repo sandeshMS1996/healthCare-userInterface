@@ -1,3 +1,13 @@
+<style>
+  input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
+  input.ng-dirty.ng-valid { border: solid 2px green; color: green}
+</style>
+<div *ngIf="flag">
+  <ul class="text-danger" *ngFor="let e of evalService.evaluateUser(categoryTemplate)">
+    <li>{{e}}</li>
+  </ul>
+</div>
+
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-8">

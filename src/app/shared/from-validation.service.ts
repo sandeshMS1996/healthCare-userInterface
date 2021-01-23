@@ -27,6 +27,11 @@ export class FromValidationService {
       errors.push('Invalid Email');
     } else if (controls?.noRep) {
       errors.push('password error');
+    } else if (controls?.max) {
+      errors.push(`Maximum value for ${a} is ${controls[`max`].max}`);
+    } else if (controls?.min) {
+      errors.push(`Minimum value for ${a} is ${controls[`min`].min}`);
     }
+
   }
 }

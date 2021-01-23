@@ -26,10 +26,10 @@
           <div class="col-sm-6 col-md-4 col-lg-4" style="margin-top: 1%" *ngFor="let i of productList">
             <!-- Card -->
             <div class="card">
-              <div class="view zoom overlay">
+              <div>
                 <a>
                   <div class="mask">
-                    <img class="img-fluid w-100"
+                    <img class="img-fluid"
                          src="{{imageurl + 'images/'+ i.id + '.png'}}">
                     <div class="mask rgba-black-slight"></div>
                   </div>
@@ -37,12 +37,11 @@
               </div>
 
               <div class="card-body text-center">
-                <p>product/{{i.id}}</p>
                 <a routerLink="/user/product/{{i.id}}"><h4>{{i.name}}</h4></a>
-                <p> {{i.description}}</p>
                 <hr>
                 <h6 class="mb-3">
-                  <span class="text-danger mr-1">{{i.price | currency}}</span>
+                  <span class="mr-1 align-content-around">{{i.price | currency}}</span><br>
+                  <span class="text-danger mr-1 align-content-around">{{i.price | currency}}</span>
                 </h6>
 
                 <button type="button" class="btn btn-primary btn-sm mr-1 mb-2" (click)="addToCart(i)">

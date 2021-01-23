@@ -1,17 +1,30 @@
+
+
 <div *ngIf="categoryList.length == 0" class="text-danger">
   <h4> Please create a category before Registering Products</h4>
 </div>
-
+<style>
+  input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
+  input.ng-dirty.ng-valid { border: solid 2px green; color: green}
+</style>
+<div *ngIf="flag">
+  <div *ngIf="!selectedImage" class="text-danger">
+    Please select an image
+  </div>
+  <ul class="text-danger" *ngFor="let e of evaluationService.evaluateUser(registerData)">
+    <li>{{e}}</li>
+  </ul>
+</div>
 <h1 class="card-header"> {{Banner}}</h1>
 <div class="container">
-  <div class="alert alert-success" *ngIf="actioned">
+  <!--<div [class.alert-danger]="!success" [class.alert-success]="success" *ngIf="flag && Banner">
     <h2>Product {{product.name}} {{!id ? 'Added' : ' Updated'}}</h2>
-  </div>
+  </div>-->
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
         <article class="card-body">
-          <form [formGroup]="registerData" (ngSubmit)="submitForm(registerData)">
+          <form [formGroup]="registerData" (ngSubmit)="submitForm()">
             <div class="form-row">
               <div class="col-sm-6 form-group">
                 <label>Product Name </label>
@@ -83,7 +96,7 @@
               </div>
             </div>
             <button class="btn btn-primary">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              <span *ngIf="submitted" class="spinner-border spinner-border-sm mr-1"></span>
               {{!id ? 'Add' : 'Update' }} Product
             </button>
           </form>

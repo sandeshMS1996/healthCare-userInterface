@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {SharedService} from '../../shared/shared.service';
 import {CategoryModel, ProductCompany} from '../../shared/Product.model';
 import {first} from 'rxjs/operators';
 import {AdminService} from '../admin.service';
+import {FromValidationService} from '../../shared/from-validation.service';
 
 @Component({
   selector: 'app-add-category',
@@ -14,14 +15,15 @@ export class AddCategoryComponent implements OnInit {
   banner = '';
   success: boolean;
   submitted = false;
+  flag = false;
   createdCategory = new CategoryModel();
   companies: ProductCompany[] = [];
   categoryTemplate = new FormGroup({
-    name: new FormControl(),
-    discount: new FormControl(),
+    name: new FormControl('', Validators.pattern('[a-zA-Z]{6,}')),
+    discount: new FormControl(0, [Validators.max(90), Validators.min(0)]),
     productCompanyList: new FormControl()
   });
-  constructor(private sharedservice: SharedService, private adminService: AdminService) { }
+  constructor(private sharedservice: SharedService, private adminService: AdminService, public evalService: FromValidationService) { }
 
   ngOnInit(): void {
     this.sharedservice.getAllCompanies().pipe(first())
@@ -31,8 +33,9 @@ export class AddCategoryComponent implements OnInit {
   }
 
   submitForm(): void {
-    this.submitted = true;
+    this.flag = true;
     if (this.categoryTemplate.valid) {
+      this.submitted = true;
       this.createdCategory = this.categoryTemplate.value;
       this.categoryTemplate.reset();
       this.adminService.addNewCategory(this.createdCategory).pipe(first())
@@ -48,6 +51,8 @@ export class AddCategoryComponent implements OnInit {
           this.createdCategory = null;
           console.log(error);
         });
+    }else {
+      console.log(this.categoryTemplate);
     }
   }
 

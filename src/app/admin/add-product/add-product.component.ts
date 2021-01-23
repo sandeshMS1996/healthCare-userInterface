@@ -13,18 +13,20 @@ import {SharedService} from '../../shared/shared.service';
   styleUrls: ['./add-product.component.css']
 })
 export class AddProductComponent implements OnInit {
+  flag = false;
+  success = false;
+  submitted = false;
   product =  new ProductModel();
   Banner: string;
   id: number;
-  actioned: boolean;
   selectedImage: any;
   registerData = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(5)])),
     price: new FormControl('', Validators.compose([Validators.required])),
-    stock: new FormControl(),
-    description: new FormControl(''),
+    stock: new FormControl('', Validators.min(0)),
+    description: new FormControl('', Validators.minLength(20)),
     category: new FormGroup({
       id: new FormControl()
     }),
@@ -45,7 +47,7 @@ export class AddProductComponent implements OnInit {
   categoryList: CategoryModel[] = [];
   companies: ProductCompany[] = [];
   constructor(private activeRoute: ActivatedRoute,
-              private Evaluationservice: FromValidationService,
+              public evaluationService: FromValidationService,
               private adminService: AdminService,
               private sharedService: SharedService
               ) { }
@@ -76,23 +78,32 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  submitForm(registerData: FormGroup): void {
-      this.loading = true;
-      console.log(this.registerData);
-      this.product = this.registerData.value;
-      console.log(this.registerData);
-      /*const c = new CategoryModel(1/!*this.product.category.id*!/);
-      this.product.category = c;
-      const p = new ProductCompany(8/!*this.product.productCompany.id*!/);
-      this.product.productCompany = p;*/
-      console.log(JSON.stringify(this.product));
-      this.adminService.AddNewProduct(this.product, this.selectedImage)
-        .pipe(first()).subscribe(value => {
-        console.log(value);
-        this.actioned = true;
-        },
-        error => console.log(error));
-      this.loading = false;
+  submitForm(): void {
+      if (this.registerData.valid && this.selectedImage) {
+        this.submitted = true;
+        this.loading = true;
+        console.log(this.registerData);
+        this.product = this.registerData.value;
+        console.log(this.registerData);
+        /*const c = new CategoryModel(1/!*this.product.category.id*!/);
+        this.product.category = c;
+        const p = new ProductCompany(8/!*this.product.productCompany.id*!/);
+        this.product.productCompany = p;*/
+        console.log(JSON.stringify(this.product));
+        this.adminService.AddNewProduct(this.product, this.selectedImage)
+          .pipe(first()).subscribe(value => {
+            this.submitted = false;
+            console.log(value);
+            this.success = true;
+          },
+          error => {
+            console.log(error);
+            this.success = false;
+            this.submitted = false;
+          });
+      } else {
+        this.flag = true;
+      }
   }
 
   onSlectImage(event): void {
@@ -103,9 +114,9 @@ export class AddProductComponent implements OnInit {
     this.registerData.controls[`productDescription`].reset();
     console.log('calling change' + id);
     this.adminService.getCompanyByCategoryId(id).pipe(first())
-      .subscribe((value: CategoryModel) => {
+      .subscribe((value: ProductCompany[]) => {
         console.log(value);
-        this.companies = value.productCompanyList;
+        this.companies = value;
       });
   }
 

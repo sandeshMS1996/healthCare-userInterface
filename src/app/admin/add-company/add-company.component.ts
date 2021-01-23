@@ -19,12 +19,12 @@ export class AddCompanyComponent implements OnInit {
   submitted = false;
   categories: CategoryModel[] = [];
   companyTemplate  = new FormGroup({
-    name: new FormControl('', Validators.required),
+    name: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z]{6,}')]),
     gstnumber: new FormControl('', Validators.required),
     isEnabled: new FormControl(true),
     accountNumber: new FormControl('', Validators.required),
     contactNumber: new FormControl('', Validators.required),
-    discount: new FormControl(0),
+    discount: new FormControl(0, [Validators.max(90), Validators.min(0)]),
     categories: new FormGroup({
       id: new FormControl([])
     })
@@ -51,7 +51,7 @@ export class AddCompanyComponent implements OnInit {
           this.success = true;
           this.submitted = false;
       }, error => {
-          this.banner = 'new Company could not be added';
+          this.banner = 'Company could not be added';
           this.success = false;
           this.submitted = false;
       });
