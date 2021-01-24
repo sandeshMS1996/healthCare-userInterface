@@ -25,9 +25,6 @@ export class AddCompanyComponent implements OnInit {
     accountNumber: new FormControl('', Validators.required),
     contactNumber: new FormControl('', Validators.required),
     discount: new FormControl(0, [Validators.max(90), Validators.min(0)]),
-    categories: new FormGroup({
-      id: new FormControl([])
-    })
   });
   constructor(private adminService: AdminService, public evaluationService: FromValidationService,
               private sharedService: SharedService) { }

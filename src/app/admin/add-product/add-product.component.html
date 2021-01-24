@@ -1,7 +1,7 @@
 
 
-<div *ngIf="categoryList.length == 0" class="text-danger">
-  <h4> Please create a category before Registering Products</h4>
+<div *ngIf="categoryList.length == 0 || companies.length === 0" class="text-danger">
+  <h4> Please create at least 1 category and Company before Registering Products</h4>
 </div>
 <style>
   input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
@@ -39,7 +39,7 @@
               <div class="form-row">
                 <div formGroupName="category" class="col-sm-6 form-group">
                   <label>Category</label>
-                  <select formControlName="id" class="form-control" (change)="getCompaies($event.target.value)">
+                  <select formControlName="id" class="form-control">
                     <option *ngFor="let c of categoryList" value="{{c.id}}">{{c.name | uppercase}}</option>
                   </select>
                 </div>

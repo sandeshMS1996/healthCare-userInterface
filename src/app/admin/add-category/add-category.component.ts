@@ -21,7 +21,6 @@ export class AddCategoryComponent implements OnInit {
   categoryTemplate = new FormGroup({
     name: new FormControl('', Validators.pattern('[a-zA-Z]{6,}')),
     discount: new FormControl(0, [Validators.max(90), Validators.min(0)]),
-    productCompanyList: new FormControl()
   });
   constructor(private sharedservice: SharedService, private adminService: AdminService, public evalService: FromValidationService) { }
 

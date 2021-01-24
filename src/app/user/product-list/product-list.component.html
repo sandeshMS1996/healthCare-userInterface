@@ -52,8 +52,11 @@
                   <img src="{{imageurl+'images/'+i.id+ '.png'}}" alt="Product" class="img-fluid">
                 </div>
                 <div class="product_details">
-                  <h5><a routerLink="/user/product/{{i.id}}">{{i.name}}</a><sub [class.text-success]="i.stock > 5" [class.text-danger]="i.stock <= 5">
-                    {{i.stock > 5 ? ' In Stock' : ' Only' + i.stock + ' left in Stock'}}</sub></h5>
+                  <h5><a routerLink="/user/product/{{i.id}}">{{i.name}}</a>
+                    <sub [class.text-success]="i.stock > 5" [class.text-danger]="i.stock <= 5" *ngIf="i.stock > 0">
+                    {{i.stock > 5 ? ' In Stock' : ' Only' + i.stock + ' left in Stock'}}</sub>
+                  <sub class="text-danger" *ngIf="i.stock <= 0">
+                    Out of stock</sub></h5>
                   <ul class="product_price list-unstyled">
                     <li class="old_price" style="text-decoration: line-through;">{{i.price.toFixed(2)}}</li>
                     <li class="new_price">{{getDiscountedPrice(i.price, i.discount)}}</li>

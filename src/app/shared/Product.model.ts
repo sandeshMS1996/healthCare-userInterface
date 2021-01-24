@@ -24,12 +24,9 @@ export class ProductModel {
 
 export class CategoryModel {
   activeCategory: boolean;
-  productCompanyList: ProductCompany[];
   discount: number;
-  constructor(public id?: number, public name?: string, activeCategory?: boolean,
-              productCompanyList?: ProductCompany[], discount?: number ) {
+  constructor(public id?: number, public name?: string, activeCategory?: boolean, discount?: number ) {
     this.activeCategory = activeCategory;
-    this.productCompanyList = productCompanyList;
     this.discount = discount;
   }
 }
@@ -37,13 +34,11 @@ export class CategoryModel {
 export class ProductCompany {
   contactNumber: number;
   accountNumber: number;
-  categories: CategoryModel[];
   discount: number;
   constructor(public id?: number, public name?: string, public gstnumber?: string, accountNumber?: number,
-              contactNumber?: number, categories?: CategoryModel[], discount?: number) {
+              contactNumber?: number, discount?: number) {
     this.contactNumber = contactNumber;
     this.accountNumber = accountNumber;
-    this.categories = categories;
     this.discount = discount;
   }
 }

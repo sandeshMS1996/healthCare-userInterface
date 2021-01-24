@@ -83,14 +83,21 @@ export class CartService {
   createPurchaseRecord(): Purchase[] {
     const purchaseList: Purchase[] = [];
     for (const c of this.cart) {
-      const purchase = new Purchase(this.authService.getCurrentUser().username, c.product.discount,
-        c.product, c.quantity, c.product.price, 'UPI');
+      const purchase = new Purchase(this.authService.getCurrentUser().username,
+        c.product, c.quantity, 'UPI');
       purchaseList.push(purchase);
     }
     return purchaseList;
   }
   getTotalCostFromServer(): Observable<any> {
     return this.httpClient.post(environment.resourceServerURl + 'api/customer/get-total-price',
+      JSON.stringify(this.createPurchaseRecord()), { headers: {'content-type': 'application/json'}})
+      .pipe(map( value => {
+        return value;
+      }));
+  }
+  purchase(totalPrice: number): Observable<any> {
+    return this.httpClient.post(environment.resourceServerURl + 'api/customer/purchase?total-cost=' + totalPrice,
       JSON.stringify(this.createPurchaseRecord()), { headers: {'content-type': 'application/json'}})
       .pipe(map( value => {
         return value;

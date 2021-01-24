@@ -64,19 +64,23 @@
         </thead>
         <tr>
           <td><h5>Subtotal</h5></td>
-          <td class="text-right"><h5><strong>{{cartService.getTotalPrice()}}</strong></h5></td>
+          <td class="text-right" style="text-decoration: line-through;"><h5>{{cartService.getTotalPrice()}}</h5></td>
+        </tr>
+        <tr>
+          <td><h5>Discounted Price</h5></td>
+          <td class="text-right"><h5><strong>{{totalPrice | currency}}</strong></h5></td>
         </tr>
         <tr>
           <td><h5>Estimated shipping</h5></td>
-          <td class="text-right"><h5><strong>{{cartService.getTotalPrice() > 0 ? + 6.94 : 0}}</strong></h5></td>
+          <td class="text-right"><h5><strong> ${{cartService.getTotalPrice() > 0 ? + 6.94 : 0}}</strong></h5></td>
         </tr>
         <tr>
           <td><h3>Total</h3></td>
-          <td class="text-right"><h3><strong>{{cartService.getTotalPrice() > 0 ?cartService.getTotalPrice() + 6.94 : 0}}</strong></h3></td>
+          <td class="text-right"><h3><strong>${{cartService.getTotalPrice() > 0 ? totalPrice + 6.94 : 0}}</strong></h3></td>
         </tr>
         <tr>
           <td>
-            <button type="button" class="btn btn-secondary">
+            <button type="button" class="btn btn-secondary" routerLink="/user/products">
               <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
             </button>
           </td>

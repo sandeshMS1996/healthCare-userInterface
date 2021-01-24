@@ -65,6 +65,15 @@ export class AddProductComponent implements OnInit {
         }
         this.categoryList = value;
       });
+    this.sharedService.getAllCompanies().pipe(first())
+      .subscribe((value: ProductCompany[]) => {
+        if (value?.length  === 0) {
+          console.log('disabling form group');
+          this.registerData.disable();
+          return;
+        }
+        this.companies = value;
+      });
     this.activeRoute.params.subscribe((param: Params) => {
       this.id = + param[`id`];
       if (this.id) {
@@ -74,6 +83,7 @@ export class AddProductComponent implements OnInit {
             this.Banner = 'Edit Product: ' + this.product.name;
             this.registerData.patchValue(this.product);
             this.registerData.controls[`notDisabled`].setValue(this.product.notDisabled, {onlySelf: true});
+            this.registerData.controls[`category`].setValue(this.product.category.id, {onlySelf: true});
           });
       } else {
         this.Banner = 'Add new Product:';
@@ -112,15 +122,6 @@ export class AddProductComponent implements OnInit {
   onSlectImage(event): void {
     this.selectedImage = event.target.files[0];
     console.log(this.selectedImage);
-  }
-  getCompaies(id: any): void {
-    this.registerData.controls[`productDescription`].reset();
-    console.log('calling change' + id);
-    this.adminService.getCompanyByCategoryId(id).pipe(first())
-      .subscribe((value: ProductCompany[]) => {
-        console.log(value);
-        this.companies = value;
-      });
   }
 
   conertToArray(): void {
