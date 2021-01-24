@@ -45,7 +45,7 @@
         <tr *ngFor="let p of productList" (click)="updateSelectedProduct(p)">
           <td>{{p.id}}</td>
           <td>{{p.name}}</td>
-          <td>{{p.discount}}</td>
+          <td>{{(p.discount / 100) | percent}}</td>
           <td>{{p.price}}</td>
           <td>{{p.stock}}</td>
           <td>
@@ -77,11 +77,11 @@
       <div class="form-group" *ngIf="selectedProduct && updateMode === 'avaialabality'">
         <h4><u>{{selectedProduct.name | uppercase}}:</u></h4>
         <label> Availability</label>
-        <select class="form-control">
-          <option>Enable</option>
-          <option>Disable</option>
+        <select class="form-control" [(ngModel)]="selectedProduct.notDisabled">
+          <option value="true">Enable</option>
+          <option value="false">Disable</option>
         </select>
-        <button class="btn btn-primary">Update Availability</button>
+        <button class="btn btn-primary" (click)="updateAvailability()">Update Availability</button>
       </div>
     </div>
   </div>

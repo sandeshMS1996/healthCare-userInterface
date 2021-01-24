@@ -1,4 +1,9 @@
+<ul class="text-danger">
+  <li *ngFor="let e of errors">{{e}}</li>
+</ul>
+
 <div class="container-fluid">
+  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
   <div class="row">
     <div class="col-sm-9">
       <table class="table table-hover">
@@ -7,6 +12,7 @@
           <th>Product</th>
           <th>Quantity</th>
           <th class="text-center">Price</th>
+          <td class="text-center">Discount</td>
           <th class="text-center">Total</th>
           <th> </th>
         </tr>
@@ -23,18 +29,25 @@
                 <span>Status: </span><span class="text-success"><strong>{{c.product.stock > 0 ? 'In Stock' : 'No Stock'}}</strong></span>
               </div>
             </div></td>
-          <td class="col-sm-1 col-md-1" style="text-align: center">
-            <ul class="pagination">
-              <li class="page-item"><button class="page-link"
-                                            [disabled]="cartService.getQuantityByproductId(c.product.id) <= 0" (click)="cartService.addToCart(c, -1)">-</button></li>
+            <td>
               <li class="page-item"><a class="page-link" href="#">
                 {{cartService.getQuantityByproductId(c.product.id)}}
               </a></li>
-              <li class="page-item"><a class="page-link" (click)="cartService.addToCart(c, 1)">+</a></li>
+            </td>
+          <!--<td class="col-sm-1 col-md-1" style="text-align: center">
+            <ul class="pagination">
+              <li class="page-item">
+                <button class="page-link" [disabled]="cartService.getQuantityByproductId(c.product.id) <= 0" (click)="updateCart(1, c)">-</button></li>
+              <li class="page-item"><a class="page-link" href="#">
+                {{cartService.getQuantityByproductId(c.product.id)}}
+              </a></li>
+              <li class="page-item"><button class="page-link" [disabled]="c.product.stock >= cartService.getQuantityByproductId(c.product.id)"
+                                       (click)="updateCart( 1, c)">+</button></li>
             </ul>
 
-          </td>
+          </td>-->
           <td class="col-sm-1 col-md-1 text-center"><strong>{{c.product.price | currency}}</strong></td>
+          <td class="col-sm-1 col-md-1 text-center"><strong>{{c.product.discount / 100 | percent}}</strong></td>
           <td class="col-sm-1 col-md-1 text-center"><strong>{{c.product.price * cartService.getQuantityByproductId(c.product.id) | currency}}</strong></td>
           <td class="col-sm-1 col-md-1">
             <button type="button" class="btn btn-danger" (click)="cartService.removeFromCart(c.product.id)">
@@ -78,3 +91,4 @@
   </div>
 </div>
 <hr>
+{{totalPrice}}

@@ -12,15 +12,21 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
   public getAllProducts(): Observable<any> {
-    return this.httpClient.get('http://localhost:8081/api/customer/all-products')
+    return this.httpClient.get(environment.resourceServerURl + 'api/customer/all-products')
       .pipe(map(value => {
         return value;
       }));
   }
   public getProductsByCompany(id: number): Observable<any> {
     const company = new ProductCompany(id);
-    return this.httpClient.post(environment.resourceServerURl + 'api/customer/get-products-by-company',
-      JSON.stringify(company), {headers: {'content-type': 'application/json'}})
+    return this.httpClient.post(environment.resourceServerURl + 'api/customer/filter?companyId=' + id, '')
+      .pipe(map(value => {
+        return value;
+      }));
+  }
+  public getProductsByCategory(id: number): Observable<any> {
+    const company = new ProductCompany(id);
+    return this.httpClient.post(environment.resourceServerURl + 'api/customer/filter?categoryId=' + id, '')
       .pipe(map(value => {
         return value;
       }));

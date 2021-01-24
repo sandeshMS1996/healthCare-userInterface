@@ -11,6 +11,7 @@ import { CartComponent } from './cart/cart.component';
 import { ProductDescriptionComponent } from './product-description/product-description.component';
 import { UserHeaderComponent } from './header/user-header.component';
 import { PaymentComponent } from './payment/payment.component';
+import {FormsModule} from '@angular/forms';
 
 const routing = RouterModule.forChild([
     { path: 'user', component: UserComponent,
@@ -24,9 +25,9 @@ const routing = RouterModule.forChild([
 @NgModule({
   declarations: [UserComponent, ProductListComponent, ProductFliterComponent,
     CartComponent, ProductDescriptionComponent, UserHeaderComponent, PaymentComponent],
-  imports: [
-    CommonModule, SharedModule, routing
-  ],
+    imports: [
+        CommonModule, SharedModule, routing, FormsModule
+    ],
   exports: [ProductListComponent]
 })
 export class UserModule { }

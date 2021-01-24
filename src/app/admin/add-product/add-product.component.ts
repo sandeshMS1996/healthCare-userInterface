@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, RouterModule, Routes} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CategoryModel, ProductCompany, ProductModel} from '../../shared/Product.model';
+import {CategoryModel, DoseForm, ProductCompany, ProductModel} from '../../shared/Product.model';
 import {FromValidationService} from '../../shared/from-validation.service';
 import {AdminService} from '../admin.service';
 import {first} from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class AddProductComponent implements OnInit {
   Banner: string;
   id: number;
   selectedImage: any;
+  dosageForm = Object.keys(DoseForm).filter(value => isNaN(Number(value)));
   registerData = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', Validators.compose(
@@ -50,7 +51,9 @@ export class AddProductComponent implements OnInit {
               public evaluationService: FromValidationService,
               private adminService: AdminService,
               private sharedService: SharedService
-              ) { }
+              ) {
+    console.log(this.dosageForm);
+  }
 
   ngOnInit(): void {
     this.sharedService.getAllCategories().pipe(first())

@@ -13,13 +13,13 @@ import {CartModel} from '../cart.model';
   styleUrls: ['./product-description.component.css']
 })
 export class ProductDescriptionComponent implements OnInit {
+  loading = true;
   imageurl = environment.resourceServerURl;
   productId: number;
   cart = new CartModel();
   product: ProductModel;
   constructor(private ActiveRoute: ActivatedRoute, private sharedService: SharedService,
               public cartService: CartService) {
-    this.cart.quantity = 0;
   }
   ngOnInit(): void {
     this.ActiveRoute.params.subscribe((value: Params) => {
@@ -28,14 +28,17 @@ export class ProductDescriptionComponent implements OnInit {
         this.sharedService.getProductById(this.productId).pipe(first())
           // tslint:disable-next-line:no-shadowed-variable
           .subscribe((value: ProductModel) => {
+            this.loading = false;
             this.product = value;
             this.cart.product = this.product;
+            this.cart.quantity = this.cartService.getQuantityByproductId(this.product.id);
           });
       }
     });
   }
   updatecart(quantity: number): void {
-    this.cartService.addToCart(this.cart, quantity);
+    this.cart.quantity += quantity;
+    /*this.cartService.addToCart(this.cart, quantity);*/
   }
   getCart(): void {
   }

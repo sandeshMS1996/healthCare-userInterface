@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
 import {CartModel} from './cart.model';
+import {Purchase} from './Purchase';
+import {AppAuthenticationService} from '../shared/app-authentication.service';
+import {audit, map} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private cart: CartModel[] = [];
   private price: number;
-  constructor() {
+  constructor(private authService: AppAuthenticationService, private httpClient: HttpClient) {
     this.retrieveCart();
   }
-  addToCart(newItem: CartModel, quantity: number): void {
+  addToCart(newItem: CartModel): void {
       const index = this.cart?.findIndex(value => value.product.id === newItem.product.id);
       console.log('index' + index);
       if (index > -1) {
-        this.cart[index].quantity += quantity;
+        this.cart[index].quantity = newItem.quantity;
       } else {
-        newItem.quantity = quantity;
         this.cart.push(newItem);
       }
-      console.log(JSON.stringify(this.cart));
+      /*console.log(JSON.stringify(this.cart));*/
       this.storeCart();
   }
   private storeCart(): void {
@@ -64,10 +69,31 @@ export class CartService {
     let price1 = 0;
     for (const c of this.cart) {
        price1 = price1 + c.quantity * c.product.price;
-       console.log('cal: ' +  c.product.name + ' ' + c.product.price + ' ' + c.quantity + ' =>' + price1);
+       /*console.log('cal: ' +  c.product.name + ' ' + c.product.price + ' ' + c.quantity + ' =>' + price1);*/
     }
     this.price = price1;
-    console.log(this.price);
+    /*console.log(this.price);*/
   }
-
+  updateCart(newCart: CartModel[]): void {
+    localStorage.removeItem('cart');
+    for (const cartElement of this.cart) {
+      this.addToCart(cartElement);
+    }
+  }
+  createPurchaseRecord(): Purchase[] {
+    const purchaseList: Purchase[] = [];
+    for (const c of this.cart) {
+      const purchase = new Purchase(this.authService.getCurrentUser().username, c.product.discount,
+        c.product, c.quantity, c.product.price, 'UPI');
+      purchaseList.push(purchase);
+    }
+    return purchaseList;
+  }
+  getTotalCostFromServer(): Observable<any> {
+    return this.httpClient.post(environment.resourceServerURl + 'api/customer/get-total-price',
+      JSON.stringify(this.createPurchaseRecord()), { headers: {'content-type': 'application/json'}})
+      .pipe(map( value => {
+        return value;
+      }));
+  }
 }

@@ -54,5 +54,5 @@ export class ProductDescription {
 }
 
 export enum DoseForm {
-  TABLET, LOTION, ORAL, OPHTHALMIC, INHALATION
+  TABLET = 0 , LOTION= 1, ORAL = 2 , OPHTHALMIC= 3 , INHALATION = 4
 }

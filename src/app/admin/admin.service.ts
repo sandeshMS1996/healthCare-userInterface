@@ -80,4 +80,11 @@ export class AdminService {
         return value;
       }));
   }
+  public updateAvailability(product: ProductModel): Observable<any> {
+    return this.httpClient
+      .post(environment.resourceServerURl + 'api/admin/change-product-availability/' + product.id + '?enable=' + product.notDisabled, '')
+      .pipe(map( value => {
+        return value;
+      }));
+  }
 }

@@ -1,11 +1,15 @@
 <br>
 <br>
-<div class="alert-danger" *ngIf="!product">
+<div class="align-content-center justify-content-center">
+  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 "></span></div>
+<div class="alert-danger" *ngIf="!product && !loading">
   <h3> Product Not found</h3>
+</div>
+<div class="alert-danger" *ngIf="!product?.notDisabled && !loading">
+  <h3> This Product is not being sold currently</h3>
 </div>
 <div *ngIf="product">
 <section class="mb-5">
-
   <div class="row">
     <div class="col-md-6 mb-4 mb-md-0">
 
@@ -38,21 +42,49 @@
       <div class="table-responsive">
         <table class="table table-sm table-borderless mb-0">
           <tbody>
-
+          <tr>
+            <td><b>Composition:</b>
+              <ul>
+                <li *ngFor="let a of product.productDescription.composition">{{a}}</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="page-item">
+              <b> Dosage Form:</b>
+                  <li>{{product.productDescription.doseForm}}</li>
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
       <hr>
       <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item"><button class="page-link" [disabled]="cartService.getQuantityByproductId(product.id) <= 0" (click)="updatecart(-1)">-</button></li>
+        <!--<ul class="pagination">
+          <li class="page-item">
+            <button class="page-link" [disabled]="cartService.getQuantityByproductId(product.id) <= 0"
+                    (click)="updatecart(-1)">-</button></li>
           <li class="page-item"><a class="page-link" href="#">
             {{cartService.getQuantityByproductId(product.id)}}
-          </a></li>
+          </a>
+          </li>
+          <li class="page-item"><a class="page-link" (click)="updatecart(1)">+</a></li>
+        </ul>-->
+        <h4 class="text-success">
+          {{product.stock > 5 ? ' In Stock' : ' Only' + product.stock + ' left in Stock'}}</h4>
+        <ul class="pagination">
+          <li class="page-item">
+            <button class="page-link" [disabled]="cart.quantity <= 0"
+                    (click)="updatecart(-1)">-</button></li>
+          <li class="page-item"><a class="page-link" href="#">
+            {{cart.quantity}}
+          </a>
+          </li>
           <li class="page-item"><a class="page-link" (click)="updatecart(1)">+</a></li>
         </ul>
       </nav>
-      <button type="button" routerLink="/user/cart" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
+      <button type="button" class="btn btn-primary btn-md mr-1 mb-2" (click)="cartService.addToCart(cart)"
+      [disabled]="cart.quantity <= 0 || !product.notDisabled">Add to Cart</button>
     </div>
   </div>
 </section>

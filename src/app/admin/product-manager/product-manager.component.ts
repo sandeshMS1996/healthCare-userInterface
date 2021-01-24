@@ -22,7 +22,9 @@ export class ProductManagerComponent implements OnInit {
   selectedProduct: ProductModel;
   updateMode: string;
   discount: number;
-  constructor(public sharedService: SharedService, public cartService: CartService, private adminService: AdminService) { }
+
+  constructor(public sharedService: SharedService, public cartService: CartService, private adminService: AdminService) {
+  }
 
   ngOnInit(): void {
     this.sharedService.getAllCategories().pipe(first())
@@ -31,11 +33,12 @@ export class ProductManagerComponent implements OnInit {
       .subscribe(value => this.CompanyList = value);
     this.getProducts();
   }
+
   getProducts(): void {
     this.sharedService.getAllProducts().pipe(first())
       .subscribe(value => {
         this.productList = value;
-        if ( this.productList.length === 0) {
+        if (this.productList.length === 0) {
           this.emptyList = true;
         }
       });
@@ -48,15 +51,29 @@ export class ProductManagerComponent implements OnInit {
   updateSelectionMode(avaialabality: string): void {
     this.updateMode = avaialabality;
   }
+
   updateDiscount(): void {
     this.adminService.updateProductDiscount(this.selectedProduct.id, this.discount)
       .pipe(first()).subscribe((value: ProductModel) => {
-          if ( value) {
-            const index = this.productList.findIndex(v => v.id === value.id);
-            if (index > -1) {
-              this.productList[index] = value;
-            }
-          }
+      if (value) {
+        const index = this.productList.findIndex(v => v.id === value.id);
+        if (index > -1) {
+          this.productList[index] = value;
+        }
+      }
+    });
+  }
+
+  updateAvailability(): void {
+    console.log(this.selectedProduct.notDisabled);
+    this.adminService.updateAvailability(this.selectedProduct)
+      .pipe(first()).subscribe((value: ProductModel) => {
+      if (value) {
+        const index = this.productList.findIndex(v => v.id === value.id);
+        if (index > -1) {
+          this.productList[index] = value;
+        }
+      }
     });
   }
 }

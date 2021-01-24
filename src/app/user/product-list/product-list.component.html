@@ -1,5 +1,6 @@
 <div class="container-fluid">
   <div class="row">
+
     <div class="col-sm-2 col-lg-2 border-left">
       <br>
       <div class="input-group">
@@ -7,50 +8,59 @@
                aria-describedby="search-addon" />
       </div>
       <hr>
-      <h4> Search By Category</h4>
-      <div *ngFor="let i of categoryList">
-        <a  href="#" >{{i.name | titlecase}}</a>
+      <a data-toggle="collapse" href="#company" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Search By Category
+      </a>
+      <div class="collapse" id="company">
+        <div *ngFor="let i of categoryList">
+          <a style="cursor: pointer" (click)="searchByCategory(i.id)">{{i.name | titlecase}}</a>
+        </div>
       </div>
       <br>
-      <h4> Select Company</h4>
-      <div *ngFor="let i of CompanyList">
-        <button class="btn"  (click)="searchByCompany(i.id)">{{i.name | titlecase}}</button>
+      <hr>
+      <a data-toggle="collapse" href="#category" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Search By Company
+      </a>
+      <div class="collapse" id="category">
+        <div *ngFor="let i of CompanyList">
+          <a (click)="searchByCompany(i.id)" style="cursor: pointer">{{i.name | titlecase}}</a>
+        </div>
+      </div>
+      <br>
+      <hr>
+      <a data-toggle="collapse" href="#filter" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Filter
+      </a>
+      <div class="collapse" id="filter">
+          <a style="cursor: pointer" (click)="filterByPrice('price')">By Price</a>
+        <br>
+          <a style="cursor: pointer" (click)="filterByPrice('date')">Date Added</a>
       </div>
     </div>
     <div class="col-sm-10 col-lg-10 border-left">
-      <div class="alert alert-danger" *ngIf="emptyList">
+      <div class="alert alert-danger" *ngIf="productList.length == 0 && !loading">
         <h1> No Products available</h1>
       </div>
       <div class="container">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 align-content-center"></span>
         <div class="row">
           <div class="col-sm-6 col-md-4 col-lg-4" style="margin-top: 1%" *ngFor="let i of productList">
             <!-- Card -->
-            <div class="card">
-              <div>
-                <a>
-                  <div class="mask">
-                    <img class="img-fluid"
-                         src="{{imageurl + 'images/'+ i.id + '.png'}}">
-                    <div class="mask rgba-black-slight"></div>
-                  </div>
-                </a>
+            <div class="card product_item">
+              <div class="body">
+                <div class="cp_img">
+                  <img src="{{imageurl+'images/'+i.id+ '.png'}}" alt="Product" class="img-fluid">
+                </div>
+                <div class="product_details">
+                  <h5><a routerLink="/user/product/{{i.id}}">{{i.name}}</a><sub [class.text-success]="i.stock > 5" [class.text-danger]="i.stock <= 5">
+                    {{i.stock > 5 ? ' In Stock' : ' Only' + i.stock + ' left in Stock'}}</sub></h5>
+                  <ul class="product_price list-unstyled">
+                    <li class="old_price" style="text-decoration: line-through;">{{i.price.toFixed(2)}}</li>
+                    <li class="new_price">{{getDiscountedPrice(i.price, i.discount)}}</li>
+                  </ul>
+                </div>
               </div>
-
-              <div class="card-body text-center">
-                <a routerLink="/user/product/{{i.id}}"><h4>{{i.name}}</h4></a>
-                <hr>
-                <h6 class="mb-3">
-                  <span class="mr-1 align-content-around">{{i.price | currency}}</span><br>
-                  <span class="text-danger mr-1 align-content-around">{{i.price | currency}}</span>
-                </h6>
-
-                <button type="button" class="btn btn-primary btn-sm mr-1 mb-2" (click)="addToCart(i)">
-                  <i class="fas fa-shopping-cart pr-2"></i>Add to cart
-                </button>
-              </div>
-
             </div>
-            <!-- Card -->
           </div>
         </div>
       </div>

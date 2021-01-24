@@ -14,7 +14,7 @@ export class JwtInterseptorService implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     /*console.log(req.headers);
-    console.log(req.body);*/
+    console.log('body =>  ' + req.body); */
     const currentUser = this.authService.getCurrentUser();
     const isloggedIn = currentUser && currentUser.password;
     const isApiUrl = req.url.startsWith(environment.resourceServerURl);
