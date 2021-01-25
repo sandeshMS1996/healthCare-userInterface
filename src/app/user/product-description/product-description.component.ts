@@ -6,6 +6,7 @@ import {first} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {CartService} from '../cart.service';
 import {CartModel} from '../cart.model';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-description',
@@ -19,7 +20,8 @@ export class ProductDescriptionComponent implements OnInit {
   cart = new CartModel();
   product: ProductModel;
   constructor(private ActiveRoute: ActivatedRoute, private sharedService: SharedService,
-              public cartService: CartService) {
+              public cartService: CartService, private titleService: Title) {
+    this.titleService.setTitle('NetMeds | Product');
   }
   ngOnInit(): void {
     this.ActiveRoute.params.subscribe((value: Params) => {

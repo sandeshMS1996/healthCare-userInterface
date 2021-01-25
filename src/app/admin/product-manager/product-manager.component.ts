@@ -6,6 +6,7 @@ import {UserService} from '../../user/user.service';
 import {CategoryModel, ProductCompany, ProductModel} from '../../shared/Product.model';
 import {environment} from '../../../environments/environment';
 import {AdminService} from '../admin.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-manager',
@@ -23,7 +24,9 @@ export class ProductManagerComponent implements OnInit {
   updateMode: string;
   discount: number;
 
-  constructor(public sharedService: SharedService, public cartService: CartService, private adminService: AdminService) {
+  constructor(public sharedService: SharedService, public cartService: CartService,
+              private adminService: AdminService, private titleService: Title) {
+    this.titleService.setTitle('NetMeds | Product Management');
   }
 
   ngOnInit(): void {

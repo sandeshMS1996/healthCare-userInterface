@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   resourceServerURl: 'http://localhost:8081/',
-  authServerUrl: 'http://localhost:8080/'
+  authServerUrl: 'http://13.59.12.83:8080/'
 };
 
 /*

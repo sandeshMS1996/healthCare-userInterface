@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CartService} from '../cart.service';
 import {first} from 'rxjs/operators';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-payment',
@@ -13,7 +14,9 @@ export class PaymentComponent implements OnInit {
   totalPrice: number;
   success = false;
   paymentAttempted = false;
-  constructor(public cartService: CartService) { }
+  constructor(public cartService: CartService, private titleService: Title) {
+    this.titleService.setTitle('NetMeds | Payment GateWay');
+  }
 
   ngOnInit(): void {
     this.cartService.getTotalCostFromServer().pipe(first())

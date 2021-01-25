@@ -3,6 +3,7 @@ import {CategoryModel, ProductModel} from '../../shared/Product.model';
 import {SharedService} from '../../shared/shared.service';
 import {first} from 'rxjs/operators';
 import {AdminService} from '../admin.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-category-manager',
@@ -16,7 +17,10 @@ export class CategoryManagerComponent implements OnInit {
   categories: CategoryModel[] = [];
   selectedCategory: CategoryModel;
   discount: number;
-  constructor(private sharedService: SharedService, private adminService: AdminService) { }
+  constructor(private sharedService: SharedService, private adminService: AdminService, private titleService: Title)
+  {
+    this.titleService.setTitle('NetMeds | Category Management');
+  }
 
   ngOnInit(): void {
     this.sharedService.getAllCategories().pipe(first()).subscribe((value: CategoryModel[]) => {

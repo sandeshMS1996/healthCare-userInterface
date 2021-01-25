@@ -5,6 +5,7 @@ import {AdminService} from '../admin.service';
 import {first} from 'rxjs/operators';
 import {FromValidationService} from '../../shared/from-validation.service';
 import {SharedService} from '../../shared/shared.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-company',
@@ -27,7 +28,9 @@ export class AddCompanyComponent implements OnInit {
     discount: new FormControl(0, [Validators.max(90), Validators.min(0)]),
   });
   constructor(private adminService: AdminService, public evaluationService: FromValidationService,
-              private sharedService: SharedService) { }
+              private sharedService: SharedService, private titleService: Title) {
+    this.titleService.setTitle('NetMeds | Add new Brand');
+  }
 
   ngOnInit(): void {
     this.sharedService.getAllCompanies().pipe(first())

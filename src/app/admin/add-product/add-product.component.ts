@@ -7,6 +7,7 @@ import {AdminService} from '../admin.service';
 import {first} from 'rxjs/operators';
 import {verifySupportedTypeScriptVersion} from '@angular/compiler-cli/src/typescript_support';
 import {SharedService} from '../../shared/shared.service';
+import {Title} from '@angular/platform-browser';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
@@ -50,9 +51,10 @@ export class AddProductComponent implements OnInit {
   constructor(private activeRoute: ActivatedRoute,
               public evaluationService: FromValidationService,
               private adminService: AdminService,
-              private sharedService: SharedService
+              private sharedService: SharedService,
+              private titleService: Title
               ) {
-    console.log(this.dosageForm);
+    this.titleService.setTitle('NetMeds | Add/Edit Product');
   }
 
   ngOnInit(): void {

@@ -2,7 +2,6 @@
   input.ng-dirty.ng-invalid {border: solid 2px red; color: red}
   input.ng-dirty.ng-valid { border: solid 2px green; color: green}
 </style>
-<button (click)="dummyLoginAdmin()"> Dummy admin Login</button>
 <div *ngIf="action == 'login'">
   <div class="bg-danger text-white p-2 mb-2" *ngIf="formSubmitted && loginData.invalid">
     <h3> There are problems </h3>
@@ -40,7 +39,7 @@
                 </button>
               </div>
               <div id="register-link" class="text-right">
-                <a href="#" class="text-info">Register here</a>
+                <a routerLink="/register" class="text-info">Register here</a>
               </div>
             </form>
             <div *ngIf="loginFailed !== null" class="alert alert-danger mt-3 mb-0">{{loginFailed}}</div>
@@ -58,13 +57,13 @@
     </ul>
   </div>
   <div class="container">
-    <br>  <p class="text-center">More bootstrap 4 components on <a href="http://bootstrap-ecommerce.com/"> Bootstrap-ecommerce.com</a></p>
+    <br>  <p class="text-center">Register for NetMeds Online portal<a href="http://bootstrap-ecommerce.com/"> Bootstrap-ecommerce.com</a></p>
     <hr>
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card">
           <header class="card-header">
-            <a href="" class="float-right btn btn-outline-primary mt-1">Log in</a>
+            <a routerLink="/login" class="float-right btn btn-outline-primary mt-1">Log in</a>
             <h4 class="card-title mt-2">Sign up</h4>
           </header>
           <article class="card-body">
@@ -76,7 +75,7 @@
                 </div> <!-- form-group end.// -->
                 <div class="col form-group">
                   <label>Last name</label>
-                  <input type="text" name="lastName" formControlName="lastname" class="form-control" placeholder=" ">
+                  <input type="text" name="lastName" formControlName="lastName" class="form-control" placeholder=" ">
                 </div> <!-- form-group end.// -->
               </div> <!-- form-row end.// -->
               <div class="form-group">
@@ -86,7 +85,7 @@
               </div> <!-- form-group end.// -->
             <div class="form-group">
               <label>Phone Number</label>
-              <input class="form-control" name="phone" formControlName="phone" type="phone">
+              <input class="form-control" name="phone" formControlName="phoneNumber" type="phone">
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -107,7 +106,7 @@
               <small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br> Terms of use and Privacy Policy.</small>
             </form>
           </article> <!-- card-body end .// -->
-          <div class="border-top card-body text-center">Have an account? <a href="">Log In</a></div>
+          <div class="border-top card-body text-center">Have an account? <a routerLink="/login">Log In</a></div>
         </div> <!-- card.// -->
       </div> <!-- col.//-->
 

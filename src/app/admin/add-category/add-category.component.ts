@@ -5,6 +5,7 @@ import {CategoryModel, ProductCompany} from '../../shared/Product.model';
 import {first} from 'rxjs/operators';
 import {AdminService} from '../admin.service';
 import {FromValidationService} from '../../shared/from-validation.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-category',
@@ -22,7 +23,10 @@ export class AddCategoryComponent implements OnInit {
     name: new FormControl('', Validators.pattern('[a-zA-Z]{6,}')),
     discount: new FormControl(0, [Validators.max(90), Validators.min(0)]),
   });
-  constructor(private sharedservice: SharedService, private adminService: AdminService, public evalService: FromValidationService) { }
+  constructor(private sharedservice: SharedService, private adminService: AdminService,
+              public evalService: FromValidationService, private titleService: Title) {
+    this.titleService.setTitle('NetMeds | Add new Category');
+  }
 
   ngOnInit(): void {
     this.sharedservice.getAllCompanies().pipe(first())

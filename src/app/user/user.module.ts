@@ -19,7 +19,8 @@ const routing = RouterModule.forChild([
         {path: 'products', component: ProductListComponent },
         {path: 'product/:id', component: ProductDescriptionComponent},
         {path: 'cart', component: CartComponent},
-        {path: 'check-out', component: PaymentComponent}
+        {path: 'check-out', component: PaymentComponent},
+        {path: '', component: ProductListComponent}
       ]},
 ]);
 @NgModule({

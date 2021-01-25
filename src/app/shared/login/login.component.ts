@@ -6,6 +6,7 @@ import {AppAuthenticationService} from '../app-authentication.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 import {RegistrationService} from '../registration.service';
+import {createUrlResolverWithoutPackagePrefix} from '@angular/compiler';
 /*import {forbiddenNameValidator} from '../Password.Custom.validator';*/
 
 @Component({
@@ -19,7 +20,14 @@ export class LoginComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private router: Router,
               private regService: RegistrationService) {
-    console.log('login component');
+    const currentUser = this.authService.getCurrentUser();
+    if ( currentUser ) {
+      if (currentUser.role === 'ROLE_USER') {
+        this.router.navigateByUrl('user').then();
+      } else {
+        this.router.navigateByUrl('admin').then();
+      }
+    }
   }
   loginData = new FormGroup({
     userName: new FormControl('', Validators.compose(
@@ -34,11 +42,11 @@ export class LoginComponent implements OnInit {
   registerData = new FormGroup({
     firstName: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(5)])),
-    lastname: new FormControl('', Validators.compose(
+    lastName: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(3)])),
     username: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(6), Validators.email])),
-    phone: new FormControl('', Validators.compose(
+    phoneNumber: new FormControl('', Validators.compose(
       [Validators.required, Validators.minLength(10)])),
     password: new FormControl('', Validators.compose(
       [Validators.required],
@@ -74,21 +82,18 @@ export class LoginComponent implements OnInit {
     return this.validationService.evaluateUser(data);
   }
   Login(): void {
-    const userModel = new UserModel();
-    userModel.username = this.loginData.controls[`userName`].value;
-    userModel.password = this.loginData.controls[`password`].value;
     this.authService
-      .authenticate(userModel.username, userModel.password)
+      .authenticate(this.loginData.controls[`userName`].value, this.loginData.controls[`password`].value)
       .pipe(first())
-      .subscribe(() => {
-        this.router.navigate(['admin']).then();
-        this.loading = false;
-        this.loginFailed = null;
+      .subscribe((currentUser: UserModel) => {
+          this.loading = false;
       }, error => {
         console.log(error);
         this.loading = false;
         if (error.status === 400) {
           this.loginFailed = 'Incorrect Username or password';
+        } else {
+          this.loginFailed = 'UnExpected Error';
         }
       });
   }
@@ -125,10 +130,9 @@ export class LoginComponent implements OnInit {
     }
 
   }
-
-  dummyLoginAdmin() {
-    let model = new UserModel('a', 'a', 'ROLE_ADMIN', true);
-    localStorage.setItem('user', JSON.stringify(model));
+  decideNavigation(): void {
+    const currentUser = this.authService.getCurrentUser();
+    console.log(currentUser);
   }
 }
 

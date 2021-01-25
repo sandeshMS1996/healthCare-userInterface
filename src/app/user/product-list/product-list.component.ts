@@ -7,6 +7,7 @@ import {CartService} from '../cart.service';
 import {CartModel} from '../cart.model';
 import {UserService} from '../user.service';
 import {CartComponent} from '../cart/cart.component';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-list',
@@ -21,7 +22,10 @@ export class ProductListComponent implements OnInit {
   productList: ProductModel[] = [];
   categoryList: CategoryModel[];
   CompanyList: ProductCompany[];
-  constructor(private sharedService: SharedService, public cartService: CartService, private userService: UserService) { }
+  constructor(private sharedService: SharedService, public cartService: CartService,
+              private userService: UserService, private titleService: Title) {
+    this.titleService.setTitle('NetMeds | Product List');
+  }
   ngOnInit(): void {
     this.sharedService.getAllCategories().pipe(first())
       .subscribe(value => this.categoryList = value);

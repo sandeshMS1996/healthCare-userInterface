@@ -3,6 +3,7 @@ import {SharedService} from '../../shared/shared.service';
 import {AdminService} from '../admin.service';
 import {CategoryModel, ProductCompany} from '../../shared/Product.model';
 import {first} from 'rxjs/operators';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-company-manager',
@@ -16,7 +17,9 @@ export class CompanyManagerComponent implements OnInit {
   discount: number;
   submitted = false;
   selectedCompany: ProductCompany;
-  constructor(private sharedService: SharedService, private adminService: AdminService) { }
+  constructor(private sharedService: SharedService, private adminService: AdminService, private titleService: Title) {
+    this.titleService.setTitle('NetMeds | Brand Management');
+  }
 
   ngOnInit(): void {
     this.sharedService.getAllCompanies().pipe(first()).subscribe((value: ProductCompany[]) => {

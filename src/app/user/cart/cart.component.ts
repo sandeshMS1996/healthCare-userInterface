@@ -5,6 +5,7 @@ import {CartModel} from '../cart.model';
 import {SharedService} from '../../shared/shared.service';
 import {first} from 'rxjs/operators';
 import {ProductModel} from '../../shared/Product.model';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-cart',
@@ -18,7 +19,9 @@ export class CartComponent implements OnInit {
   newCart: CartModel[] = [];
   imageurl = environment.resourceServerURl;
   errors: string[] = [];
-  constructor(public cartService: CartService, private sharedService: SharedService) { }
+  constructor(public cartService: CartService, private sharedService: SharedService, private titleService: Title) {
+    this.titleService.setTitle('NetMeds | cart');
+  }
 
   ngOnInit(): void {
     this.cart = this.cartService.getCart();
