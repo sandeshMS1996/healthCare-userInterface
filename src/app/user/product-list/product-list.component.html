@@ -52,7 +52,7 @@
                   <img src="{{imageurl+i.id+ '.png'}}" alt="Product" class="img-fluid">
                 </div>
                 <div class="product_details">
-                  <h5><a routerLink="/user/product/{{i.id}}">{{i.name}}</a>
+                  <h5><a routerLink="/user/product/{{i.id}}" id="prodName">{{i.name}}</a>
                     <sub [class.text-success]="i.stock > 5" [class.text-danger]="i.stock <= 5" *ngIf="i.stock > 0">
                     {{i.stock > 5 ? ' In Stock' : ' Only' + i.stock + ' left in Stock'}}</sub>
                   <sub class="text-danger" *ngIf="i.stock <= 0">
